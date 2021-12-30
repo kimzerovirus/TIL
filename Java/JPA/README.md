@@ -1,12 +1,17 @@
 # Java Persistence API
 
+<br/>
+
 ## @Getter, @Setter
  - 선언된 모든 필드의 get메서드 생성
  - 선언된 모든 필드의 set메서드 생성
 
+<br/>
 
 ## @Data
  - 클래스에 선언된 모든 private에 대해 @Getter와 @Setter를 적용
+
+<br/>
 
 ## @RequiredArgsConstructor, @NoArgsConstructor와 @AllArgsConstructor
  - `@RequiredArgsConstructor` : 선언된 모든 초기화 되지 않은 final필드 또는 @NonNull이 붙은 필드를 파라미터로 받는 생성자를 생성해 준다(final이 없는 필드는 생성x, 모든 멤버 변수를 초기화시키는 생성자).
@@ -14,24 +19,37 @@
  - `@AllArgsConstructor` : 모든 필드 값을 파라미터로 받는 생성자를 만들어준다.
  - @AllArgsConstructor와 @NoArgsConstructor는 항상 같이 처리해야 컴파일 에러가 발생하지 않는다.
 
+<br/>
+
 ## @Table(name="테이블명")
  - DB에서 어떤 테이블인지 표기
+
+<br/>
 
 ## @Entity
  - 해당 클래스가 엔티티를 위한 클래스임을 명시하고, 해당 클래스의 인스턴스들이 JPA로 관리되는 객체임을 의미한다.
  - DB의 테이블과 링크될 클래스임을 선언
  - 기본값으로 클래스(자바)의 카멜케이스 = 데이터베이스의 언더스코어 네이밍(언더바)과 매칭된다.
 
+<br/>
+
 ## @Id
  - Primary Key, 즉 PK임을 의미함
+
+<br/>
 
 ## @GeneratedValue
  - PK규칙을 나타낸다
  - 스프링부트 2.0의 경우 GenerationType.IDENTITY옵션을 추가해야 auto_increment사용가능
 
+<br/>
+
 ## @Builder
  - 해당 클래스의 빌더 패턴 클래스 생성
  - 생성자 상단에 선언시 생성자에 포함된 필드만 빌더에 포함
+ - @Builder패턴 사용시 @AllArgsConstructor와 @NoArgsConstructor를 함께 처리해줘야 컴파일 에러가 발생하지 않는다.
+
+<br/>
 
 ## @GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -44,9 +62,7 @@
  - `TABLE` : 키 생성 전용 테이블을 생성한다. (@TableGenerator와 같이 사용)
  - [@GeneratedValue의 옵션에 따른 문제점에 관한 글](https://hyeonic.tistory.com/m/196)
 
-## @Builder 패턴
-
- - @Builder패턴 사용시 @AllArgsConstructor와 @NoArgsConstructor를 함께 처리해줘야 컴파일 에러가 발생하지 않는다.
+<br/>
 
 ## @Column(columnDefinition = "varchar(200) default 'hello'")
 
@@ -69,11 +85,15 @@
     private String author;
 ```
 
+<br/>
+
 ## JpaRepository
 
  - JpaRepository는 인터페이스로 이것을 레포지토리(저장소)에서 상속만 해주면 된다.
  - `public interface XXXRepository extends JpaRepository<엔티티클래스, ID타입`
  - Spring Data JPA는 위의 상속 선언만으로 자동으로 스프링에 빈으로 등록된다.
+
+<br/>
 
 ## JPA에서의 CRUD
 
@@ -84,19 +104,29 @@
 
 - insert와 update는 메서드가 동일하지만 JPA의 구현체가 메모리상에서 객체를 비교하여 새로운 객체면 insert작업을, 존재한다면 update 작업을 수행한다.
 
+<br/>
+
 ## @MappedSuperclass
  - JPA Entity 클래스들이 BaseEntity를 상속할 경우 필드들도 칼럼으로 인식하게 한다.
+
+<br/>
 
 ## @EntityListeners(AuditingEntityListener.class)
  - 현재 클래스에 Auditing 기능을 포함한다.
  - Auditing기능은 Spring Data JPA에서 시간에 대해서 자동으로 값을 넣어주는 기능이다.
  - application실행 부분에 @EnableJpaAuditing으로 활성화 해줘야한다.
 
+<br/>
+
 ## @CreatedDate
  - Entity가 생성되어 저장될 때 시간이 자동으로 저장된다.
 
+<br/>
+
 ## @LastModifiedDate
  - 조회한 Entity의 값을 변경할 때 시간이 자동 저장된다.
+
+<br/>
 
 ## JPA와 QueryDsl
 
@@ -104,11 +134,15 @@
  - 따라서 조회용 프레임워크로 MyBatis, QueryDsl 등을 추가로 이용하는 경향이 있는데
  QueryDsl은 메소드를 기반으로 쿼리를 생성하기 때문에 오타 등의 자잘한 에러를 IDE에서 걸러 낼 수 있다는 장점이 있다.
 
+<br/>
+
 ## Query Methods
 
  - [Reference Docs](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods)
  - `findBy`나`getBy`로 시작하고 `And, Or`와 같은 키워드로 메서드의 이름 자체를 질의 조건으로 만들어 준다.
  - 레포지토리인터페이스에 메소드를 적어주면 된다.
+
+<br/>
 
 ## @Query
 
