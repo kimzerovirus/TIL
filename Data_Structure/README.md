@@ -1,4 +1,14 @@
-# 자료구조
+# Data Structure
+
+## 목차
+
+1. [Linked List](#linked-list)
+2. [Doubly Linked List](#doubly-linked-list)
+3. [Queue](#queue)
+4. [Stack](#stack)
+5. [Hash Table](#hash-table)
+6. [Heap](#heap)
+7. [Priority Queue](#priority-queue)
 
 ## Linked List
 
@@ -9,7 +19,7 @@
 
  ![Linked List](https://upload.wikimedia.org/wikipedia/commons/6/6d/Singly-linked-list.svg)
 
-<br/>
+
 
 ## Doubly Linked List
 
@@ -23,7 +33,7 @@
 
 ![Doubly Linked List](https://upload.wikimedia.org/wikipedia/commons/5/5e/Doubly-linked-list.svg)
 
-<br/>
+
 
 ## Queue
 
@@ -32,22 +42,22 @@
    - `Enqueue` : 엔큐는 컬렉션의 말미에 엔티티를 추가합니다.
    - `Dequeue` : 디큐는 컬렉션의 선두에서 엔티티를 삭제합니다.
 
- <br/>  
+   
 
  큐는 이로써 선입선출(FIFO: First-in First-out) 데이터 구조가 됩니다. FIFO의 데이터 구조에서는 큐에 추가된 첫 번째 요소가 첫 번째로 삭제됩니다. 이것은 새로운 요소가 추가되면 그 요소를 삭제하기 위해서는 그때까지 추가된 모든 요소가 삭제되어야 하는 요건과 동일합니다. 대부분의 경우 피크와 같은 선두 요소를 검사하는 조작도 갖추고 있는데 이는 디큐하지 않고 선두 요소의 값을 반환합니다. 
  큐는 선형 데이터 구조들 보다 추상적인 시퀀셜 컬렉션의 한 예입니다.
 
 ![Queue](https://upload.wikimedia.org/wikipedia/commons/5/52/Data_Queue.svg)
 
-<br/>
 
-## 스택
+
+## Stack
 
  컴퓨터 과학에서, 스택은 추상 데이터형으로, 2개의 주요한 조작을 할 수 있는 요소의 컬렉션입니다.
    - `push` : 푸시는 컬렉션에 요소를 추가합니다.
    - `pop` : 팝은 최근 추가된 요소에서 아직 삭제되지 않은 것을 삭제합니다.
     
- <br/>
+ 
 
  요소가 스택으로부터 빗나가는 순서로부터, 후입선출(LIFO: Last-in First-out)라고도 불립니다.
  스택에 변경을 가하지 않고, 선두의 요소를 검사하는 피크 조작을 갖추기도 합니다.
@@ -56,9 +66,9 @@
 
 ![Stack](https://upload.wikimedia.org/wikipedia/commons/b/b4/Lifo_stack.png)
 
-<br/>
 
-## 해시 테이블
+
+## Hash Table
 
 컴퓨터 과학에서 **해시 테이블** (해시맵)은 키를 값에 매핑할 수 있는 *연관배열(associative array)* 기능을 가진 데이터 구조입니다. 해시 테이블은 해시함수를 사용해 버킷이나 슬롯 배열에 대한 인덱스를 계산하고 원하는 값을 찾을 수 있습니다. (사실상 해시함수에서 배열은 bucket 또는 slot으로 부른다.)
 따라서 해시테이블은 특정 키에 값을 매핑 시킨 형태의 자료구조로 키값에 매핑된 값을 검색 할 때 매우 유용하다. 이때 해시함수는 찾고자 하는 키가 버킷 또는 슬롯의 몇 번째 인덱스에 해당하는지를 확인할 때 사용힌다.
@@ -71,9 +81,9 @@
 
 ![Hash Collision](https://upload.wikimedia.org/wikipedia/commons/d/d0/Hash_table_5_0_1_1_1_1_1_LL.svg)
 
-<br/>
 
-## 힙
+
+## Heap
 
 컴퓨터 사이언스에서 힙은 특수한 트리구조의 데이터 구조로 다음과 같은 특성을 갖고 있습니다.
 
@@ -87,21 +97,21 @@
 
  - 힙의 "최상단" 노드에는 부모노드가 존재하지 않으며, 루트노드라고 부릅니다.
 
-<br/>
 
-## 우선순위 큐
+
+## Priority Queue
  
 컴퓨터 과학에서 우선순위가 있는 큐는 일반 큐나 스택의 데이터 구조와 비슷한 추상 데이터형이지만, 각 요소의 [우선순위]와 관련되어 있습니다. 우선순위가 있는 큐에서는 우선순위가 높은 요소가 우선순위가 낮은 요소보다 먼저 처리됩니다. 만약 두 요소의 우선순위가 같을 경우, 그것들은 큐 내부의 순서에 따라 처리됩니다.
 
 우선순위가 있는 큐는 대부분의 경우 힙으로 구현되지만 개념적으로는 힙과는 다릅니다. 우선순위 큐는 리스트나 맵과 같은 추상적인 개념입니다. 리스트를 링크드 리스트나 배열로 구현할 수 있는 것과 마찬가지로 우선순위가 있는 큐는 힙이나 정렬되지 않은 배열과 같은 다양한 방법으로 구현할 수 있습니다.
 
-<!-- <br/>
+<!-- 
 
-## 트라이
+## Trie
 
-<br/>
 
-## 트리 -->
+
+## Tree -->
 
 
 <br/>
@@ -113,7 +123,7 @@
 
 본 자료는 아래 링크를 바탕으로 공부하고 번역 및 요약한 내용입니다.
 
-- 본문 출처: [원본코드 링크](https://github.com/trekhleb/javascript-algorithms/blob/master/src/data-structures/linked-list/README.ko-KR.md)
+- 본문 출처: [원본코드 링크](https://github.com/trekhleb/javascript-algorithms)
 
 - 이미지 출처: 위키피디아
 
