@@ -1,16 +1,16 @@
 # UI/UX
 
 ## 목차
-[1. reset](#1-reset)<br/>
-[2. 요소 숨김처리](#2-요소-숨김처리)<br/>
-[3. 텍스트 말줄임](#3-텍스트-말줄임)<br/>
-[4. float](#4-float)<br/>
-[5. flex](#5-flex)<br/>
-[6. 이미지 전체배경화면](#6-이미지-전체배경화면)<br/>
-[7. 동영상 전체배경화면](#7-동영상-전체배경화면)<br/>
-[8. transition](#8-transition)<br/>
-[9. transform](#9-transform)<br/>
-[10. @keyframes 애니메이션명](#10-keyframes-애니메이션명)<br/>
+1. [reset](#1-reset)
+2. [요소 숨김처리](#2-요소-숨김처리)
+3. [텍스트 말줄임](#3-텍스트-말줄임)
+4. [float](#4-float)
+5. [flex](#5-flex)
+6. [이미지 전체배경화면](#6-이미지-전체배경화면)
+7. [동영상 전체배경화면](#7-동영상-전체배경화면)
+8. [transition](#8-transition)
+9. [transform](#9-transform)
+10. [@keyframes 애니메이션명](#10-keyframes-애니메이션명)
 <br/>
 
 ## 1. reset
