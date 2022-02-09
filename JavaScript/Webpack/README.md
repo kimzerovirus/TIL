@@ -1,4 +1,53 @@
-# Webpack 기본 템플릿
+Quick Start
+```
+npm init -y
+npm i wepack webpack-cli -D
+npm i html-webpack-plugin
+npm i webpack-dev-server -D
+npm i -D style-loader css-loader
+npm install --save-dev mini-css-extract-plugin
+npm i -D file-loader
+npm i -D clean-webpack-plugin
+```
+webpack.config.js
+
+```
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+module.exports = {
+  entry: "./src/index.js",
+  output: {
+    filename: "main.js",
+    path: path.resolve(__dirname, "dist"),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        // use:["style-loader","css-loader"], // 배열은 뒤애서 부터 읽어들여진다. css-loader => style-loader순으로
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+    ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./index.html", //template이 다 js로 빌드 되는걸 html로 나오게 설정
+    }),
+    new MiniCssExtractPlugin({
+        filename: "common.css", //외부 css파일(html에서 link 태그로 연결할 때)
+      }),
+      new CleanWebpackPlugin(),
+    ],
+    devServer: {
+      static: {
+        directory: path.resolve(__dirname, "dist"),
+      },
+      port: 8080,
+    },
+  };
+
+```
 
 __webpack__: 모듈(패키지) 번들러의 핵심 패키지<br>
 __webpack-cli__: 터미널에서 Webpack 명령(CLI)을 사용할 수 있음<br>
@@ -21,9 +70,12 @@ __sass__: SCSS(Sass) 문법을 해석(스타일 전처리기)<br>
 __postcss__: Autoprefixer 등의 다양한 스타일 후처리기 패키지<br>
 __autoprefixer__: 스타일에 자동으로 공급 업체 접두사(Vendor prefix)를 적용하는 PostCSS의 플러그인<br> 
 
-## 주의사항!
+## 주의사항
 
-- `npm i -D webpack-dev-server@next`로 설치(webpack-cli 버전(@4^)과 일치)!<br>
-- `package.json` 옵션으로 `browserslist` 추가!<br>
-- `.postcssrc.js` 생성(PostCSS 구성 옵션)!<br>
-- `.babelrc.js` 생성(Babel 구성 옵션)!<br>
+- `npm i -D webpack-dev-server@next`로 설치(webpack-cli 버전(@4^)과 일치)<br>
+- `package.json` 옵션으로 `browserslist` 추가<br>
+- `.postcssrc.js` 생성(PostCSS 구성 옵션)<br>
+- `.babelrc.js` 생성(Babel 구성 옵션)<br>
+
+
+
