@@ -58,7 +58,39 @@ table{ border-collapse: collapse; }
 <br/>
 
 ## 5. flex
- - 
+```flex:1;``` 
+- flex-grow:1; //늘어날때 비율
+- flex-shrink:1; //줄어들때 비율
+- flex-basis:0%;
+
+flex-direction
+- column : 가로, 열
+- row : 세로, 행
+
+flex-wrap
+- 자식요소에 줄바꿈 적용
+- nowrap : 줄바꿈 불가
+- wrap : 줄바꿈 허용
+
+flex-flow
+- flex-direction과 flex-wrap을 한번에 지정
+
+justify-content
+- flex-start
+- flex-end
+- center
+- space-between : 양쪽 끝에 보내고 여백 동일하게 적용, 자식요소 사이끼리 동일한 간격
+- space-around : 동일 여백으로 그리드시스템 적용, 자식요소 둘레에 동일한 간격
+- space-evenly : 자식요소 사이와 양 끝에 동일한 간격
+
+align-items
+- stretch : 쭉 늘어나서 부모 높이만큼꽉채움, 디폴트
+- baseline
+- flex-end
+- flex-start
+
+align-content
+- flex-container가 wrap일때 사용가능
 
 <br/>
 
@@ -144,7 +176,8 @@ transition: property duration timing delay;
        - 3d효과가 적용된 요소에 모션처리를 하면 해당 3d효과가 풀림
        - 부모요소에 preserve-3d를 적용하면 - 자식요소의 3d효과를 유지 
        - 주의사항) preserve-3d 와 perspective를 같은 요소에 동시적용하면 모션이 깨짐 
-
+   - ```backface-visibility: hidden;``` : 뒷면 안보이게 
+   
 <br/>
 
 ## 10. @keyframes 애니메이션명
