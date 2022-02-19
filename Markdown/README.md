@@ -84,7 +84,7 @@ const gameHandler = (player: ActionType) => {
 [![이미지가 오류 났을때 보여줄 문구](이미지 주소)](하이퍼링크 사이트 주소)
 ```
 
-## html태그 사용하기
+## :computer: html태그 사용하기
 
 <span>`<br>`</span>
 <span>`<p></p>`</span>
