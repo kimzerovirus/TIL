@@ -44,15 +44,34 @@ say(123,123);
 - `never` : never타입은 어떠한 반환값도 없다.
 - 배열 타입지정
 ```
-const members : (string)[] = ['John','Sam'];
+const members: (string)[] = ['John','Sam'];
+const members: Array<string> = ['John','Sam'];
 ```                                                                          
 - 튜플 : 배열 + 불변성
 ```
-const tuples : [string, number] = ['kim',30];
+const tuples: [string, number] = ['kim',30];
 tuple[0] = 'kim'; //ok
 // tuple[0] = 'john'; //error
 ```
 - 열거형 : enum타입은 상수들을 관리하기 위한 객체, 상수들의 집합이다. 속성은 기본적으로 숫자와 문자열만 허용한다. (const로 생성한 열거형이 아니라면 빌드시에 object로 치환된다. 따라서 const로 만들어진 열거형은 값으로 키를 찾을 수 없다.)
 
 - 유니온 : `|` 연산자를 사용하여 타입을 정의할 수 있다.
-- 인터페이스 : 새로운 타입을 정의하는 방법이다.
+- 인터페이스 : 객체나 클래스를 위한 타입을 정의할 때 사용하며 인터페이스간 상속이 가능하다.
+```
+interface Person{
+    name: string;
+    age: number;
+}
+
+interface Account extends Person{
+    email: string;
+    pwd: string;
+}
+
+const account: Account = {
+    name: 'John',
+    age: 19,
+    email: 'john123@naver.com',
+    pwd: '1111',
+}
+```
