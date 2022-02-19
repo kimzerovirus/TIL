@@ -85,10 +85,12 @@ const gameHandler = (player: ActionType) => {
 ```
 
 ## html태그 사용하기
+
 <span>`<br>`</span>
 <span>`<span></span>`</span>
 <span>`<h1></h1> ~ <h5></h5>`</span>
 <span>`<div align="center"></div>`</span>
+
 <div align="center">
 이러한 html 태그들이 사용 가능해요
 </div>
