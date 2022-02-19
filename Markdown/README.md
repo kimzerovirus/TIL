@@ -55,6 +55,10 @@ const gameHandler = (player: ActionType) => {
 ## 🏷 하이퍼 링크 만들기
 [이 링크는 어디로 갈까요?](https://www.youtube.com/watch?v=YmDMhcIfBdY)
 
+### 📒 목차
+1. [TODO Check List](#todo-check-list)
+2. [링크 만들기를 이용해 목차를 만들 수도 있어요](#마크다운-예시)
+
 ## 🖼 이미지를 넣어봅시다
 
 ![image](https://avatars.githubusercontent.com/u/68390715?v=4)
