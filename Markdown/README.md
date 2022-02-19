@@ -88,6 +88,9 @@ const gameHandler = (player: ActionType) => {
 
 <span>`<br>`</span>
 <span>`<p></p>`</span>
+<span>`<span></span>`</span>
+<span>`<em></em>`</span>
+<span>`<strong></strong>`</span>
 <span>`<h1></h1> ~ <h5></h5>`</span>
 <span>`<div align="center"></div>`</span>
 
