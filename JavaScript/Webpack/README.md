@@ -1,7 +1,7 @@
 Quick Start
 ```
 npm init -y
-npm i wepack webpack-cli -D
+npm i webpack webpack-cli -D
 npm i html-webpack-plugin
 npm i webpack-dev-server -D
 npm i -D style-loader css-loader
