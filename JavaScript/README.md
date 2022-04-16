@@ -281,3 +281,32 @@ Math.round(123.654 * 10 / 10) //124
 Math.min(...arr);
 Math.max(...arr);
 ```
+
+## 5. 비동기
+
+### 5.1 Promise
+Promise에는 3가지 상태가 있다.
+- Pending 대기
+- Fulfilled 이행
+- Rejected 실패
+
+비동기 처리가 완료되지 않았을 때는 Pending상태로 완료가 된다면 Fulfilled, 실패한다면 Rejected 상태를 갖는다.
+
+```
+const promise = new Promise((resolve, reject) => {
+  if (condition) {
+    resolve('resolved');
+  } else {
+    reject('rejected');
+  }
+});
+```
+
+### 5.2 async & await
+콜백지옥 또는 then()지옥을 피하기 위해 나온 최신 문법이다.
+await을 통해 Promise를 받아올 수 있다. 하지만 await은 async 함수 안에서만 동작한다.
+```
+async () => {
+    await fetchData();
+}
+```
