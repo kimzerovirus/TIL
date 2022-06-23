@@ -7,9 +7,10 @@
 - EXPOSE : 생성된 이미지에서 열어줄 포트
 
 
-- docker build -t [image_name] --name [container_name?] ./ [docker_file생성위치?]
+docker build -t [image_name] --name [container_name?] ./ [docker_file생성위치?]
 → `docker build -t node/test ./ `
-- docker run -p [local_port]:[docker_port -> source_code_port]
+<br/>
+docker run -p [local_port]:[docker_port -> source_code_port]
 → `docker run -p 3600:3600 node/test`
 
 ### 하나의 도커 이미지로 여러개의 도커 컨테이너를 여는법
