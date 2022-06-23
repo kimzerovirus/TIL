@@ -8,11 +8,10 @@ CMD : 컨테이너를 생성 및 실행 시에 실행하는 명령어
 EXPOSE : 생성된 이미지에서 열어줄 포트
 
 
-docker build -t [image_name] --name [container_name?] ./ [docker_file생성위치?]
+- docker build -t [image_name] --name [container_name?] ./ [docker_file생성위치?]
 → `docker build -t node/test ./ `
-docker run -p [local_port]:[docker_port -> source_code_port]
+- docker run -p [local_port]:[docker_port -> source_code_port]
 → `docker run -p 3600:3600 node/test`
-
 
 ### 하나의 도커 이미지로 여러개의 도커 컨테이너를 여는법
 도커 이미지 한개로 여러개의 컨테이너를 실행할 수 있는데 이 때 컨테이너를 실행하면서 각기 다른 포트로 열어 주어야 된다.
