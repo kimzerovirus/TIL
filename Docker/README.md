@@ -1,11 +1,10 @@
 ### docker파일 작성
-FROM : 이미지를 생성할 때 사용할 기반 이미지
-→ alpine은 cloud 환경을 고려한 가벼운 linux 이미지이다.
-WORKDIR : 작업 디렉토리를 지정하는 것. 없으면 새로 생성한다.
-COPY : build 명령 중간에 호스트의 파일 또는 폴더를 가져와 이미지에 가져오는 것이다.
-RUN : image가 올라갔을 때 실행되는 명령어
-CMD : 컨테이너를 생성 및 실행 시에 실행하는 명령어
-EXPOSE : 생성된 이미지에서 열어줄 포트
+- FROM : 이미지를 생성할 때 사용할 기반 이미지 → alpine은 cloud 환경을 고려한 가벼운 linux 이미지이다.
+- WORKDIR : 작업 디렉토리를 지정하는 것. 없으면 새로 생성한다.
+- COPY : build 명령 중간에 호스트의 파일 또는 폴더를 가져와 이미지에 가져오는 것이다.
+- RUN : image가 올라갔을 때 실행되는 명령어
+- CMD : 컨테이너를 생성 및 실행 시에 실행하는 명령어
+- EXPOSE : 생성된 이미지에서 열어줄 포트
 
 
 - docker build -t [image_name] --name [container_name?] ./ [docker_file생성위치?]
