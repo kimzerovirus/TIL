@@ -8,6 +8,10 @@ module.exports = {
     images: {
       unoptimized: true,
     },
+    assetPrefix:
+    process.env.NODE_ENV === "production"
+      ? "https://kimzerovirus.github.io/til"
+      : "",
   };
  
 // If you have other Next.js configurations, you can pass them as the parameter:

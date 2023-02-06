@@ -1,4 +1,6 @@
 {
+  "homepage": "https://kimzerovirus.github.io/til",
+  "author": "kimzerovirus <kimzerovirus@gmail.com>",
   "dependencies": {
     "next": "^13.1.6",
     "nextra": "^2.2.14",
@@ -8,6 +10,9 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export"
+    "build": "next build && next export && gh-pages -d out"
+  },
+  "devDependencies": {
+    "gh-pages": "^5.0.0"
   }
 }
