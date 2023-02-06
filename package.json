@@ -1,5 +1,5 @@
 {
-  "homepage": "https://kimzerovirus.github.io/til",
+  "homepage": "https://kimzerovirus.github.io/TIL",
   "author": "kimzerovirus <kimzerovirus@gmail.com>",
   "dependencies": {
     "next": "^13.1.6",
@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export && gh-pages -d out"
+    "build": "next build && next export && touch out/.nojekyll && gh-pages --add --dotfiles -d out"
   },
   "devDependencies": {
     "gh-pages": "^5.0.0"
