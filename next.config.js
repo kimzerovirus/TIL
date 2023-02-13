@@ -1,5 +1,4 @@
 const debug = process.env.NODE_ENV !== "production";
-const repository = "TIL";
 
 const withNextra = require("nextra")({
   theme: "nextra-theme-docs",
@@ -11,7 +10,7 @@ module.exports = {
   images: {
     unoptimized: true,
   },
-  assetPrefix: !debug ? `https://kimzerovirus.github.io/${repository}/` : "",
+  assetPrefix: !debug ? `https://kimzerovirus.github.io/TIL/` : "",
 };
 
 // If you have other Next.js configurations, you can pass them as the parameter:
