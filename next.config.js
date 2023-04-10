@@ -11,6 +11,7 @@ module.exports = {
     unoptimized: true,
   },
   assetPrefix: !debug ? `https://kimzerovirus.github.io/TIL/` : "",
+  basePath: "/TIL" //https://github.com/shuding/nextra/issues/137
 };
 
 // If you have other Next.js configurations, you can pass them as the parameter:

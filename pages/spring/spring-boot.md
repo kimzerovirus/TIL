@@ -8,7 +8,7 @@
 
 
 
-### api 테스트
+## api 테스트
 
 - 웹브라우저 개발자 도구
 - curl
@@ -21,3 +21,22 @@
 http -v ":8080/hello?name=spring"
 ```
 
+
+
+## 빈 오브젝트
+
+### 애플리케이션 빈
+
+- Controller
+- Service
+- DataSource
+- JpaEntityManagerFactory
+- JdbcTransactionManager
+
+### 컨테이너 인프라스트럭쳐 빈
+
+- ApplicationContextBeanFactory
+- Environment
+- BeanPostProcessor
+- BeanFactoryPostProcessor
+- DefaultAdvisorAutoProxyCreator

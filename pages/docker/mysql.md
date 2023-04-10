@@ -135,9 +135,11 @@ mysql> show grants for testuser@'%';
 ```yaml
 version: "3"
 services:
-  db:
+  mysql:
     image: mysql:latest
     container_name: mysql-container
+    restart: always
+    platform: linux/x86_64
     ports:
       - "3306:3306"
     environment:
@@ -154,6 +156,15 @@ services:
       - ../db/initdb.d:/docker-entrypoint-initdb.d
       - ../db/:/var/lib/mysql # -v 옵션 (다렉토리 마운트 설정)
 ```
+
+- `platform` - MacOS 실리콘칩인 경우 linux/x86_64 지정
+- `restart` - docker재기동시 항상 기동된다.
+- `volumes`를 지정하여 재기동시에도 데이터가 손실되지 않는다.
+- `MYSQL_ROOT_PASSWORD` - root유저의 패스워드를 지정한다.
+- `TZ` - 시간대를 설정한다.
+- 기타 MySql Image 주요 옵션
+  - `MYSQL_DATABASE` - 기동시 생성되는 database, 아래 user / password가 기술된 경우 해당 user는 database의 최고권한을 얻는다.
+  - `MYSQL_USER`, `MYSQL_PASSWORD`
 
 ### Docker Compose 실행
 

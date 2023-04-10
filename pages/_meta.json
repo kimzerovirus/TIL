@@ -1,9 +1,9 @@
 {
-    "index":"Hello",
-    "javakotlin":"자바 & 코틀린",
-    "spring":"스프링",
-    "ddd":"도메인 주도 설계",
-    "docker":"Docker",
-    "git":"Git",
-    "linux":"Linux"
+  "index": { "title": "Hello", "display": "hidden" },
+  "javakotlin": "자바 & 코틀린",
+  "spring": "스프링",
+  "ddd": "도메인 주도 설계",
+  "docker": "Docker",
+  "git": "Git",
+  "linux": "Linux"
 }
