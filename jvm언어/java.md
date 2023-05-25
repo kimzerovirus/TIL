@@ -23,3 +23,21 @@
 | boolean contains(String str)                                 | 문자열이 str을 포함하고 있는지 판별                          |
 | boolean matches(String regex)                                | 문자열이 정규표현식과 일치하는지 판별                        |
 
+```java
+String i = "i";
+String i1 = "i";
+String i2 = new String("i");
+
+System.out.println(i.equals("i")); // true
+System.out.println(i == i2); // false
+System.out.println(i == i1); // true
+System.out.println(System.identityHashCode(i));  // 1160460865 주소값은 다르다
+System.out.println(System.identityHashCode(i1)); // 1160460865
+System.out.println(System.identityHashCode(i2)); // 1247233941
+```
+
+## Map 클래스
+
+| 메소드                                   | 설명                                                         |
+| ---------------------------------------- | ------------------------------------------------------------ |
+| getOrDefault(Object key, V DefaultValue) | 찾는 키가 존재한다면 찾는 키의 값을 반환하고 없다면 기본 값을 반환하는 메서드 |
