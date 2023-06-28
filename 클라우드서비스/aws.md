@@ -31,3 +31,34 @@ nohup java -jar [ ].jar &
 ```
 
 기본은 유동이므로 고정 IP 따로 생성해야됨
+
+
+
+## EC2
+
+### 요금 체계
+- 온디맨드
+- 스팟 인스턴스
+- Savings Plans
+- 전용 호스팅
+
+### 인스턴스 만들기
+
+1. 인스턴스 유형 선택 및 생성
+2. 기존 키 페어 선택 또는 새 키 페어 생성 (이렇게 생성된 키로 ec2에 원격 접속 가능함)
+
+## 보안
+
+### IAM
+
+### MFA (Multi Factor Authentication)
+
+## S3 Simple Storage Service
+
+## Cloud Front
+
+## RDS
+
+## Code Deploy
+
+## Route53
