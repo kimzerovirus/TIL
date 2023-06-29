@@ -46,3 +46,10 @@ Mainpulate Linux Kernel
 | 53          | DNS           | 993         | IMAPS                       |
 | 80          | HTTP          | 995         | POP3S                       |
 
+## telnet
+
+```
+curl -v telnet://주소
+```
+
+-v 옵션을 해줘야 안내문 같은거 나옴
