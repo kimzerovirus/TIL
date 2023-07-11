@@ -7,22 +7,6 @@
 웹컴포넌트는 다이나믹한 데이터를 웹클라이언트에게 제공해준다. 이러한 웹컴포넌트 여러개를 웹컨테이너(서블릿 컨테이너 - ex 톰캣)가 관리한다. 웹컨테이너는 여러 요청을 알맞은 웹컴포넌트에게 맡김
 
 
-
-## api 테스트
-
-- 웹브라우저 개발자 도구
-- curl
-- Intellij IDEA Ultimate- http request
-- Postman
-- XUnit
-- HTTPie
-
-```
-http -v ":8080/hello?name=spring"
-```
-
-
-
 ## 빈 오브젝트
 
 ### 애플리케이션 빈
