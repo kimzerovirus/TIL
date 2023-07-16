@@ -45,3 +45,14 @@
 31. [ExceptionTranslationFilter](https://docs.spring.io/spring-security/reference/5.7/servlet/architecture.html#servlet-exceptiontranslationfilter) : 요청 처리하는 중에 인증이나 권한 예외가 발생하면 잡아서 처리해준다.
 32. [FilterSecurityInterceptor](https://docs.spring.io/spring-security/reference/5.7/servlet/authorization/authorize-requests.html#servlet-authorization-filtersecurityinterceptor)  (접근 결정) : 권한 부여 처리를 위임해 접근 제어 결정을 쉽게 하는 접근 결정 관리자 역할을 수행한다. 즉, 여기까지 통과해서 왔다면 인증이 있다는 거니, 접속하려는 request에 들어갈 자격이 있는지 그리고 리턴한 결과를 너에게 보내줘도 되는건지 마지막으로 점검하는 **접근 결정 관리자**이다. AccessDecisionManager로 권한 부여 처리를 위임한다. (즉, 이 과정에서는 이미 사용자가 인증되어 있으므로 유효한 사용자로, 접근 가능하지 인가 관련 설정을 진행한다.)
 33. SwitchUserFilter
+
+## 인증과정
+
+1. 사용자가 아이디와 비밀번호를 폼에 입력
+2. AuthenticationFilter가 넘어온 아이디와 비밀번호의 유효성 검사를 진행
+3. 유효성 검사를 통과하면 실제 구현체인 UsernamePasswordAuthenticationToken을 만들어 넘김
+4. 전달 받은 인증용 객체인 UsernamePasswordAuthenticationToken을 AuthenticationManager에게 위임
+5. AuthenticationProvider로 전달
+6. 사용자 아이디를 UserDetailsService에 보내어 사용자 아이디로 사용자 정보를 DB에서 찾은 후 UserDetails 리턴
+7. AuthenticationProvider는 입력 정보와 UserDetails의 정보를 비교해 실제 인증 처리를 진행
+8. 인증이 완료되면 SecurityContextHolder에 Authentication을 저장
