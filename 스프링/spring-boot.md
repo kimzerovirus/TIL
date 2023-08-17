@@ -24,3 +24,8 @@
 - BeanPostProcessor
 - BeanFactoryPostProcessor
 - DefaultAdvisorAutoProxyCreator
+
+
+## dto
+json 파싱할때 getter가 없으면 안됨
+
