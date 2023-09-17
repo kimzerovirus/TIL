@@ -52,16 +52,6 @@ rm [file]
 rm -r [folder]
 ```
 
-vi
-
-```bash
-i insert mode
-ESC insert mode에서 나오기
-:q 닫기
-:wq 수정한 내용 저장하고 닫기
-:q! 수정 내용 저장하지 않고 닫기
-```
-
 lsof (list open files)
 
 ```bash
