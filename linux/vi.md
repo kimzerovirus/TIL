@@ -1,5 +1,28 @@
 # vi/vim
 
+vi insert mode 안되고 방향키 누르면 알파벳 입력될 경우에
+
+```bash
+# 홈 디렉토리로 이동
+cd ~ 
+
+# vi로 .exrc 파일 생성
+vi .exrc 
+
+set bs=2
+set nocp 
+
+# 위 내용을 저장
+ESC 
+:wq
+# 위 설정을 저장
+source .exrc 
+```
+
+
+
+
+
 ## 시작 명령어
 
 | 명령어                            | 설명                                 |
