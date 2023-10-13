@@ -48,11 +48,28 @@ Mainpulate Linux Kernel
 
 ## telnet
 
+```bash
+telnet [ip] [port]
 ```
+curl + telnet
+
+```bash
 curl -v telnet://주소
 ```
 
--v 옵션을 해줘야 안내문 같은거 나옴
+-v 옵션을 해줘야 안내문 같은거 나옴<br/>
+
+curl telnet ping
+
+## Linux의 Disk구조
+
+> sda (sda1, sda2) | sdb | sdc<br/>
+> sd는 디스크를 의미하고 그 뒤에 붙는 알파벳 a,b,c는 순서 그 다음에 있는 숫자는 파티션 넘버를 의미
+
+```bash
+df -m
+lsblk # 디스크 구조를 트리형태로 조회할 수 있음 <- 파티션별 배정 용량 확인하기 편함
+```
 
 
 
