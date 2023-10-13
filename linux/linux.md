@@ -84,6 +84,6 @@ fdisk /dev/sdb
 **마운트 목록 조회**
 
 ```bash
-df-Th
+df -Th
 ```
 
