@@ -64,7 +64,7 @@ curl -XGET http://localhost:9200/classes/class/1?pretty
 ```yaml
 version: 3.8
 services:
-	es-singlenode:
+es-singlenode:
 		image: docekr.elastic.co/elasticsearch/elasticsearch:7.15.0
 		conatiner_name: es-singlenode
 		environment:

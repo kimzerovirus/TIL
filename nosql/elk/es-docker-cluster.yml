@@ -1,0 +1,180 @@
+version: '3.8'
+services:
+  es1:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.2.0
+    container_name: es1
+    environment:
+      - node.name=es1
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es1,es2,es3
+      - cluster.initial_master_nodes=es1,es2,es3
+      - path.data=/usr/share/elasticsearch/data
+      - path.logs=/usr/share/elasticsearch/logs
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      # - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - ingest.geoip.downloader.enabled=false
+      - TZ=Asia/Seoul
+      ## 밑에 주석 3개는 처음 기동할 때 밑에 세개만 풀고
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      ## 이하는 처음 기동시 주석처리하고 이후 인증서 생성하고 다시 기동할 때 적용
+      # - xpack.security.enabled=true
+      # - xpack.security.transport.ssl.enabled=true
+      # - xpack.security.transport.ssl.verification_mode=certificate
+      # - xpack.security.transport.ssl.client_authentication=required
+      # - xpack.security.transport.ssl.keystore.path=elastic-certificates.p12
+      # - xpack.security.transport.ssl.truststore.path=elastic-certificates.p12
+      # - xpack.monitoring.collection.enabled=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nproc:
+        soft: 1024000
+        hard: 1024000
+      nofile:
+        soft: 1024000
+        hard: 1024000
+    sysctls:
+      net.core.somaxconn: 65000
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cat/health || exit 1"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    restart: always
+    volumes:
+      - ~/desktop/learn/docker-learning/elasticsearch/es1:/usr/share/elasticsearch/data:rw
+      - ~/desktop/learn/docker-learning/elasticsearch/es1:/usr/share/elasticsearch/logs:rw
+      - ~/desktop/learn/docker-learning/elasticsearch/es1:/usr/share/elasticsearch/config
+      - ~/desktop/learn/docker-learning/elasticsearch/plugins:/usr/share/elasticsearch/plugins
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - elastic
+
+  es2:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.2.0
+    container_name: es2
+    environment:
+      - node.name=es2
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es1,es2,es3
+      - cluster.initial_master_nodes=es1,es2,es3
+      - path.data=/usr/share/elasticsearch/data
+      - path.logs=/usr/share/elasticsearch/logs
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      # - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - ingest.geoip.downloader.enabled=false
+      - TZ=Asia/Seoul
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nproc:
+        soft: 1024000
+        hard: 1024000
+      nofile:
+        soft: 1024000
+        hard: 1024000
+    sysctls:
+      net.core.somaxconn: 65000
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cat/health || exit 1"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    restart: always
+    volumes:
+      - ~/desktop/learn/docker-learning/elasticsearch/es2:/usr/share/elasticsearch/data:rw
+      - ~/desktop/learn/docker-learning/elasticsearch/es2:/usr/share/elasticsearch/logs:rw
+      - ~/desktop/learn/docker-learning/elasticsearch/es2:/usr/share/elasticsearch/config
+      - ~/desktop/learn/docker-learning/elasticsearch/plugins:/usr/share/elasticsearch/plugins
+    ports:
+      - 9201:9200
+      - 9301:9300
+    networks:
+      - elastic
+
+  es3:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.2.0
+    container_name: es3
+    environment:
+      - node.name=es3
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es1,es2,es3
+      - cluster.initial_master_nodes=es1,es2,es3
+      - path.data=/usr/share/elasticsearch/data
+      - path.logs=/usr/share/elasticsearch/logs
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      # - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - ingest.geoip.downloader.enabled=false
+      - TZ=Asia/Seoul
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nproc:
+        soft: 1024000
+        hard: 1024000
+      nofile:
+        soft: 1024000
+        hard: 1024000
+    sysctls:
+      net.core.somaxconn: 65000
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cat/health || exit 1"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    restart: always
+    volumes:
+      - ~/desktop/learn/docker-learning/elasticsearch/es3:/usr/share/elasticsearch/data:rw
+      - ~/desktop/learn/docker-learning/elasticsearch/es3:/usr/share/elasticsearch/logs:rw
+      - ~/desktop/learn/docker-learning/elasticsearch/es3:/usr/share/elasticsearch/config
+      - ~/desktop/learn/docker-learning/elasticsearch/plugins:/usr/share/elasticsearch/plugins
+    ports:
+      - 9202:9200
+      - 9302:9300
+    networks:
+      - elastic
+
+  kibana:
+      image: docker.elastic.co/kibana/kibana:8.2.0
+      container_name: kibana
+      ports:
+        - "5601:5601"
+      environment:
+        - ELASTICSEARCH_HOSTS=["http://es01:9200","http://es02:9200","http://es03:9200"]
+      expose:
+        - 5601
+      depends_on:
+        - es01
+      volumes:
+        - ~/desktop/learn/docker-learning/elasticsearch/kibana:/usr/share/kibana/data
+        - ~/desktop/learn/docker-learning/elasticsearch/kibana:/usr/share/kibana/config
+      networks:
+        - elastic
+
+# volumes:
+#   data1:
+#     driver: local
+#   logs1:
+#     driver: local
+#   data2:
+#     driver: local
+#   logs2:
+#     driver: local
+#   data3:
+#     driver: local
+#   logs3:
+#     driver: local
+
+networks:
+  elastic:
+    driver: bridge
