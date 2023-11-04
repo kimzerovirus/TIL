@@ -12,13 +12,13 @@
   - subscribe하면 publisher로부터 subscription을 받을 수 있는 인자를 제공한다.
   - onNext, onComplete, onError
 - `Subscription` : 데이터 흐름을 조절한다.
-  - cancel : publisher가 onNext로 값을 전달하는 것을 취소한다. (complete 되기 전이어도 취소 가능)
-  - request : 요청 수 전달
+  - `request` : 데이터 요청 수 전달(요청 수 만큼만 작업하도록 제한한다.)
+  - `cancel` : publisher가 onNext로 값을 전달하는 것을 취소하고 연결을 종료한다. (complete 되기 전이어도 취소 가능하며, subscriber가 더이상 데이터를 받지 않거나 에러가 발생했을 때 호출)
 
-- onSubscribe : publisher가 subscription을 subscriber 에게 전달함.
-- onNext : data 전달
-- onComplete : complete 이벤트
-- onError : error 이벤트
+- `onSubscribe` : subscriber가 publisher와 연결이 시작될 때 호출되며, publisher가 subscription을 subscriber 에게 전달함.
+- `onNext` : publisher -> subscriber 에게 data 전달, subscriber는 받은 데이터로 작업 수행
+- `onComplete` : 모든 데이터가 전달되었을 때 complete 이벤트 발생
+- `onError` : 이벤트 스트림이 작업 처리 중 에러 발생시 호출되고 publisher와 subscriber의 연결이 종료된다.
 
 ## Reactive Stream의 확장
 
@@ -26,10 +26,13 @@
 
 #### Project reactor
 
-- Pivotal에서 개발하였다.
+- 스프링 프레임워크의 개발사인 Pivotal에서 개발하였다.
 - Spring Reactor에서 사용하고 있고 이는 Spring WebFlux의 토대가 된다.
 - Mono : Optional과 같은 일을 하기 위해 존재 즉, 한개가 있거나 없다를 보장하기 위해 있다, Mono<Void>로 특정 작업이 완료되는 시점을 가리킬 수도 있다.
 -  Flux : 0 ~ 무한대, 여러개의 값
+-  core publisher가 reactive streams의 publisher를 구현하였기 때문에 reactive streams와 호환됨
+
+[더보기](https://github.com/kimzerovirus/TIL/blob/main/jvm%EC%96%B8%EC%96%B4/Java/reactor.md)
 
 #### RxJava
 
