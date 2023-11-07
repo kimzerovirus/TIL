@@ -10,83 +10,84 @@ Elasticsearch는 역색인(Inverted Index)이라는 자료 구조를 이용함.<
 역색인은 검색엔진과 같은 문서의 내용의 검색이 필요한 형태에서 전문 검색의 형태로 주로 쓰임.
 쉬운 예시로 들어보면 **일반 색인(forward index)은 책의 목차**와 같은 의미이고, **역색인(inverted index)은 책 가장 뒤의 단어 별 색인 페이지**와 같다. 따라서 용어들에 대해서 문서의 형태로 나열 하는 구조를 역색인이라 보면됨
 
-## ELK Stack
-
-- Filebeat
-  - 로그를 생성하는 서버에 설치해 로그 수집
-  - Logstash 서버로 로그 전송
-- Logstash
-  - 로그 및 트랜잭션 데이터를 수집과 집계 및 파싱하여 Elasticsearch로 전달
-  - 정제 및 전처리 담당
-- Elasticsearch
-  - Logstash로부터 전달받은 데이터를 저장하고, 검색 및 집계 등의 기능 제공
-- Kibana
-  - 저장된 로그를 Elasticsearch의 빠른 검색을 통해 가져오며, 이를 시각화 및 모니터링하는 기능 제공
-  - 시각화툴
-
-## Elasticsearch와 RDBMS 유사 개념 비교
-
-| Elasticsearch                | RDBMS                |
-| ---------------------------- | -------------------- |
-| GET                          | Select               |
-| PUT                          | Update               |
-| POST                         | Insert               |
-| DELETE                       | Delete               |
-| Cluster                      | DBMS                 |
-| Node                         | DBMS Instance        |
-| Index                        | Table                |
-| Shard/ Routing               | Partition            |
-| Document                     | Row                  |
-| Field                        | Column               |
-| Serialized JSON document     | Row of columnar data |
-| Nested or Parent/Child       | Join                 |
-| QueryDSL                     | SQL(DML)             |
-| Analyzed                     | Index                |
-| _id                          | Primary Key          |
-| elasticsearch.yml & settings | Configuration        |
-| Mappings                     | Schema               |
-
-Elasticsearch는 데이터를 행렬 데이터로 저장하는 것이 아니라, **JSON 문서(Document)**로 직렬화된 복잡한 자료 구조를 저장하는 방식을 채택하고 있음, 따라서 기존 RDB에서 사용하던 용어와 차이가 있다.<br/>
-
-**명령어 사용예시**<br/>
 
 
-```bash
-curl -XGET http://localhost:9200/classes/class/1?pretty
+## 검색
+
+> GET [인덱스]/_search <br/>
+>
+> POST [인덱스]/_search <br/>
+
+GET, POST 어느쪽을 사용해도 된다.
+
+### match_all
+
+모든 문서를 매치하는 쿼리
+
+```json
+GET [index name]/_search
+{
+  "query":{
+    "match_all": {}
+  }
+}
 ```
 
-?pretty는 JSON형태로 문자 정렬시켜주는 옵션
+### match
 
+지정한 필드의 내용이 질의어와 매치하는 문서를 찾는 쿼리
 
-
-## docker-compose로 간단하게 구성하기
-
-```yaml
-version: 3.8
-services:
-es-singlenode:
-		image: docekr.elastic.co/elasticsearch/elasticsearch:7.15.0
-		conatiner_name: es-singlenode
-		environment:
-			- node.name=single-node
-			- cluster.name=single
-			- discovery.tpye=single-node
-		ports:
-			- 9200:9200
-			- 9300:9300
-		networks:
-			- es-bridge
-networks:
-	es-bridge:
-		driver: bridge
+```json
+GET [index name]/_search
+{
+  "query":{
+    "match":{
+      "fieldName":{
+        "query": "test match query",
+        "operator": "or"
+      }
+    }
+  }
+}
 ```
 
-**ES를 Single Node로 실행시킬 경우**<br/>
+standard 애널라이저를 사용한다면 test, match, query와 같이 3개의 토큰으로 분석되어 해당 토큰에 매치되는 문서들이 반환될 것이다.<br/>
 
-cluster가 아닌 standalone 구성시에는 "discovery.type=single-node" 설정해주지 않으면 다른 클러스터에 합쳐져 버리는 문제가 발생함
+operator의 기본값은 or로 생략 가능, and로 지정할 경우 모든 토큰이 일치되는 문서를 선택한다
 
+### term
 
+지정한 필드의 값이 질의어와 정확히 일치하는 문서를 찾는 쿼리, 용어일치
 
+```json
+GET [index name]/_search
+{
+  "query":{
+    "term":{
+      "fieldName":{
+        "value": "test"
+      }
+    }
+  }
+}
+```
 
+field의 값이 정확히 test로 일치하는 문서를 찾아서 반환한다. rdb의 where 조건과 비슷하다.
 
-참고 : https://tecoble.techcourse.co.kr/post/2021-10-19-elasticsearch/
+### terms
+
+여러개의 질의어를 지정하여 하나 이상의 질의어가 일치하는 문서를 찾는 쿼리
+
+```json
+GET [index name]/_search
+{
+  "query":{
+    "terms":{
+      "fieldName":["test", "hello"],
+      "boost": 1.0
+    }
+  }
+}
+```
+
+term, terms 쿼리는 boost 옵션으로 값에 가중치를 줄 수 있음, default는 1.0

@@ -20,11 +20,83 @@
 - `Flux<T>.collectList() = Mono<List<T>>`
 - `Mono<T>.flux() = Flux<T>`
 
-## Publisher
-
-## Subscriber
+## Subscribe
 
 - publisher에 subscribe 하지 않으면 아무 일도 발생하지 않음
+### Subscribe 직접 구현시
+
+- consumer를 넘기지 않는 `subscribe` : 별도로 consume을 하지 않고 최대한으로 요청한다.
+
+```java
+public final Disposable subscribe()
+```
+- 함수형 인터페이스 기반의 `subscribe` : `Disposable` 을 반환하며, 이것을 통해 언제든지 연결을 종료할 수 있다.
+  - `consumer` : 값을 처리할 consumer 구현
+  - `errorConsumer` : 에러를 처리할 consumer 구현
+  - `completeConsumer` : complete 이벤트는 받을 인자가 없으므로 Runnable 구현
+  - `initialContext` : up stream에  전달할 context
+
+
+
+```java
+public final Disposable subscribe(
+	@Nullable Consumer<? super T> consumer,
+  @Nullable Consumer<? super Throwable> errorConsumer,
+  @Nullable Runnable completeConsumer,
+  @Nullable Context initialContext
+)
+```
+
+- `Subscriber` 기반의 `subscribe` : `Subscriber` 는 `Subscription` 을 받기 때문에 `request`, `cancel` 메서드를 통한 Back Pressure 제어와 연결 종료가 가능하다.
+
+```java
+public final void subscribe(Subscriber<? super T> actual)
+```
+
+### BaseSubscriber
+
+reactor에서 제공하는 subscriber로 onNext, onComplete, onError, onSubscribe를 직접 구현하는 대신 hook 메서드를 통해 구현한다. 또한, subscriber 외부에서 request와 cancel을 호출할 수 있다.
+
+```java
+var subscriber = new BaseSubscriber<Integer>() {
+    @Override
+    protected void hookOnSubscribe(Subscription subscription) {
+        super.hookOnSubscribe(subscription);
+    }
+		
+    @Override
+    protected void hookOnNext(Integer value) {
+        super.hookOnNext(value);
+    }
+
+    @Override
+    protected void hookOnComplete() {
+        super.hookOnComplete();
+    }
+
+    @Override
+    protected void hookOnError(Throwable throwable) {
+        super.hookOnError(throwable);
+    }
+
+    @Override
+    protected void hookOnCancel() {
+        super.hookOnCancel();
+    }
+
+    @Override
+    protected void hookFinally(SignalType type) {
+        super.hookFinally(type);
+    }
+};
+
+Flux.fromIterable(List.of(1,2,3)).subscribe(subscriber);
+// request, cancel 외부에서 호출 가능
+subscriber.request(1);
+subscriber.cancel();
+```
+
+
 
 ## Back Pressure
 
@@ -42,7 +114,7 @@
 - 처리할 수 없는 초과된 요청량을 버퍼에 일시적으로 담아두기
 - 처리할 수 없는 초과된 요청들의 이벤트를 삭제하고 Tracking 하지 않기
 
-#### publisher 관점에서의 배압 제어 전략
+#### Publisher 관점에서의 배압 제어 전략
 
 - subscriber가 요청할 때만 새로운 이벤트를 전송하기
 - 클라이언트 측에서 수신할 수 있는 요청 수를 제한하기
