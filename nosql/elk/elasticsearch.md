@@ -91,3 +91,33 @@ GET [index name]/_search
 ```
 
 term, terms 쿼리는 boost 옵션으로 값에 가중치를 줄 수 있음, default는 1.0
+
+### bool
+
+여러개의 쿼리 조합으로 검색을 하고 싶을 때 사용한다. 아래와 같이 4개의 인자를 가지고 있으며, 4개의 인자 안에 배열로 각 필드들에 대해 match, term 과 같은 쿼리를 작성하면 된다.
+
+```json
+GET [index name]/_search
+{
+  "query": {
+    "bool": {
+      "must": [...],
+      "must_not": [...],
+      "filter": [...],
+      "should": [...],
+      "minimum_should_match": 1
+    }
+  }
+}
+```
+
+- `must` : 쿼리가 참인 문서에 대해 점수를 줌.
+
+- `must_not` : 쿼리가 거짓인 문서에 대해 점수를 줌.
+
+- `filter` : 쿼리가 참인 문서를 검색하지만 must와 달리 스코어를 계산하지 않으며, 캐싱이 가능하다. 즉, 정확히 일치하는 것으로 범위를 한정지으려면 must 보다 filter가 더 빠르고 좋다.
+
+- `should` : 검색 결과 중 쿼리에 해당하는 내용이 있다면 문서의 점수를 높게 책정한다.
+
+- `minimum_should_match` : should를 사용할 때 should 이외의 쿼리를 같이 사용하면 should가 무시될 수 있기 때문에 should에서 최소 매칭 되야하는 개수를 설정하는 옵션이다.
+
