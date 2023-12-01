@@ -1,5 +1,7 @@
 # Linux
 
+devian 계열은 apt
+
 ## Linux Shell
 
 Mainpulate Linux Kernel

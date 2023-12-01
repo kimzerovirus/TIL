@@ -17,7 +17,7 @@
 
 ## 스프링 배치 아키텍처
 
-![spring batch architecture](https://docs.spring.io/spring-batch/docs/current/reference/html/images/spring-batch-layers.png)
+![spring batch architecture](../_img/spring/spring-batch-architecture.png)
 
 - Application Layer : 스프링 배치 프레임워크를 이용하여 개발자는 업무 로직 구현에 집중하고, 배치 Job 등의 기술 구현 등은 프레임웍에 위임한다.
 - Batch Core : Job의 실행, 모니터링, 관리하는 API들로 구성되어 있다. (Job의 설정 구성)
@@ -25,4 +25,5 @@
 - Batch Infrastructure : Job 실행의 흐름과 처리를 위한 환경, 틀을 제공한다. (Core에서 구성된 Job을 실행 및 중단, 복구 등의 작업을 진행)
   - Reader, Processor Writer, Skip, Retry
 
-출처: https://docs.spring.io/spring-batch/docs/current/reference/html/spring-batch-architecture.html
+출처: https://docs.spring.io/spring-batch/reference/spring-batch-architecture.html
+
