@@ -1,91 +1,34 @@
+# AWS
 
+## AWS 구성요소
 
-## EC2
+- region
+- AZ(Availability Zone)
+- VPC(Virtual Private Cloud)
 
-### 요금 체계
+###  region
+구성요소 중 가장 큰 단위이며, 논리적인 단계이다.
 
-- 온디맨드
-- 스팟 인스턴스
-- Savings Plans
-- 전용 호스팅
+### AZ
 
-남의 컴퓨터를 빌려서 원격제어를 통해서 사용하는것
+실제 IDC 단위로써, aws 정책에 따라 하나의 region안에는 반드시 `2개 이상`의 AZ가 존재한다고 한다. 시스템을 구성할 single AZ로 할지 multi AZ로 구성할것인지는 사용자의 선택사항이다. *(multi AZ로 구성하여 data들을 이원화하여 안전하게 보관하거나, Elastic Load Balancer를 통해 각각의 AZ가 다른 일을 수행하게 할수도 있다.)*
 
-온디맨드 : 쓰는 만큼 돈내는것
+### VPC
 
-예약 인스턴스 : 정액제
+논리적으로 격리된 가상의 컴퓨터
 
-컴퓨터 1대 = 인스턴스 1?
+[VPC 정리](https://github.com/kimzerovirus/TIL/blob/main/aws/vpc.md)
 
-Elastic Compute Cloud (EC2) : 클라우드의 가상 서버 (컴퓨터)
+## AWS Web Service Architecture
 
-### 인스턴스 만들기
+![vpc](../_img/aws/web-service-architecture.png)
 
-1. 인스턴스 유형 선택 및 생성
-2. 기존 키 페어 선택 또는 새 키 페어 생성 (이렇게 생성된 키로 ec2에 원격 접속 가능함)
-3. 인스턴스 생성되면 업데이트 부터 진행
-
-```bash
-sudo yum update
-sudo hostnamectl set-hostname [hostname]
-sudo timedatectl set-timezone Asia/Seoul #time zone 설정
-date
-
-yum list | grep java-11
-sudo yum install java-11-amazon-corretto-headless
-
-pwd
-mkdir
-
-sudo systemctl status [ ]
-sudo systemctl start [ ]
-
-nohup java -jar [ ].jar &
-```
-
-4. 기본은 유동이므로 고정 IP 따로 생성해야됨, 인터넷에서 연결 가능한 퍼블릭 ip 설정하려면 탄력적 IP(Elastic ip) 할당해야함 dns 이용도 고려(elastic ip를 ec2에 연결해 두는것 까지는 무료고 이건 유료, 연결해제시 돈나감)
-
-
-
-## S3 Simple Storage Service
-
-## Cloud Front
-
-## RDS
-
-ec2에서 접속하려면 보안그룹 설정에서 해당 ec2의 vcp id를 알맞게 설정해 줘야함
-
-ec2가 아닌 외부에서 접속하려면 퍼블릭 엑세스 허용해야함
-
-## Code Deploy
-
-ec2에 code deploy 설치 등 설정을 미리 해줘야함
-
-[aws 제공하는 인스턴스 설정 안내문](https://docs.aws.amazon.com/ko_kr/codedeploy/latest/userguide/instances.html)
-
-```bash
-wget https://aws-codedeploy-ap-northeast-2.s3.ap-northeast-2.amazonaws.com/latest/install
-chmod +x ./install
-sudo ./install auto
-sudo service codedeploy-agent start
-systemctl status codedeploy-agent
-systemctl --now enable codedeploy-agent
-```
-
-- ec2에 태그 설정으로 codedeploy연결해줘야함
-- ec2에는 role에서 `AmazonS3FullAccess`, `AWSCodeDeployFullAccess` 권한을 부여해야함
-- codedeploy 에는 `AWSCodeDeployRole` 부여
-
-<br/>
-
-code deploy 에러가 났는데 aws console에서 에러 로그가 확인 되지 않는다면 ec2에서 `/var/log/aws/codedeploy-agent/codedeploy-agent.log` 로그 파일을 살펴보면됨
-
-<br/>
-
-**InstanceAgent::Plugins::CodeDeployPlugin::CommandPoller: Missing credentials - please check if this instance was started with an IAM instance profile 에러**
-
-> EC2에 CodeDeploy 관련 IAM Role이 부여되기 전에 CodeDeploy Agent가 실행되면서 IAM Role을 못 가져간 것.
->
-> EC2의 IAM Role이 바뀌면 CodeDeploy Agent restart 해주면 됨
-
-## Route53
+- **[Amazon Route 53](http://aws.amazon.com/route53/)를 사용하는 DNS 서비스** : 도메인 관리를 간소화하는 DNS 서비스를 제공합니다.
+- **[Amazon CloudFront](http://aws.amazon.com/cloudfront/)를 사용한 엣지 캐싱** : 엣지는 대용량 콘텐츠를 캐싱하여 고객의 대기 시간을 줄입니다.
+- **[AWS WAF](http://aws.amazon.com/waf/)를 사용한 Amazon CloudFront용 엣지 보안** : 고객 정의 규칙을 통해 크로스 사이트 스크립팅(XSS) 및 SQL 삽입을 비롯한 악성 트래픽을 필터링합니다.
+- **[Elastic Load Balancing](http://aws.amazon.com/elasticloadbalancing/)(ELB)을 사용한 로드 밸런싱** : 서비스의 중복성과 분리를 위해 여러 가용 영역 및 [AWS Auto Scaling](http://aws.amazon.com/autoscaling/) 그룹에 로드를 분산할 수 있습니다.
+- **[AWS Shield](http://aws.amazon.com/shield/)를 사용한 DDoS 방어** : 가장 일반적인 네트워크 및 전송 계층 DDoS 공격으로부터 자동으로 인프라를 보호합니다.
+- **보안 그룹이 포함된 방화벽** : 보안을 인스턴스로 이동하여 웹 및 애플리케이션 서버 모두에 상태 유지 호스트 수준 방화벽을 제공합니다.
+- **[Amazon ElastiCache](http://aws.amazon.com/elasticache/)를 사용한 캐싱** : Redis 또는 Memcached와 함께 캐싱 서비스를 제공하여 앱과 데이터베이스에서 로드를 제거하고 빈번한 요청의 대기 시간을 줄입니다.
+- **[Amazon Relational Database Service](http://aws.amazon.com/rds/)(Amazon RDS)를 사용한 관리형 데이터베이스** : 6개 DB 엔진 중에서 사용하여 고가용성 다중 AZ 데이터베이스 아키텍처를 생성합니다.
+- **[Amazon Simple Storage Service(Amazon S3)](http://aws.amazon.com/s3/)를 통한 정적 스토리지 및 백업** : 이미지, 비디오와 같은 정적 자산 및 백업을 위한 간단한 HTTP 기반 객체 스토리지를 구현합니다.
