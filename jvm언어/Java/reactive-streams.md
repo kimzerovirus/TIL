@@ -9,6 +9,7 @@
 - `Publisher` : 데이터/이벤트를 제공한다. 
   - subscribe 함수를 통해 publisher에 다수의 subscriber를 등록한다.
 - `Subscriber` : 데이터/이벤트를 제공받는다. - subscribe해야 실제로 작업이 이루어진다.
+  - Publisher가 입력으로 들어오는 데이터를 제공하면 Subscriber가 데이터를 전달받아 사용하는 주체이다. 
   - subscribe하면 publisher로부터 subscription을 받을 수 있는 인자를 제공한다.
   - onNext, onComplete, onError
 - `Subscription` : 데이터 흐름을 조절한다.
