@@ -10,7 +10,8 @@
 > 따라서 Publisher와 Subscriber의 입맛에 알맞게 이 둘 사이에서 가공처리가 이루어져야 하는데 이 가공처리를 담당하는 것이 `Operator` 이다.
 
 **Reactive Streams란?** <br/>
-자바에서 데이터 스트림을 Non-Blocking 하면서 비동기적으로 처리하기 위한 리액티브 라이브러리의 표준을 의미한다.
+자바에서 데이터 스트림을 Non-Blocking 하면서 비동기적으로 처리하기 위한 리액티브 라이브러리의 표준을 의미한다.<br/>
+이러한 표준을 구현한 구현체로는 RxJava, Reactor, Akka Streams, Java9 Flow Api 등이 있다. 이 중 스프링 프레임워크는 Reactor를 채택하였다.
 
 ## Reactive Stream 구조
 
