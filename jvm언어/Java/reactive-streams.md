@@ -9,6 +9,9 @@
 > `Publisher` 로부터 전달된 데이터를 `Subscriber` 가 아무런 처리없이 바로 사용하는 경우는 거의 없을것이다.
 > 따라서 Publisher와 Subscriber의 입맛에 알맞게 이 둘 사이에서 가공처리가 이루어져야 하는데 이 가공처리를 담당하는 것이 `Operator` 이다.
 
+**Reactive Streams란?** <br/>
+자바에서 데이터 스트림을 Non-Blocking 하면서 비동기적으로 처리하기 위한 리액티브 라이브러리의 표준을 의미한다.
+
 ## Reactive Stream 구조
 
 - `Publisher` : 데이터/이벤트를 제공한다. 
