@@ -20,6 +20,19 @@
 - `onComplete` : 모든 데이터가 전달되었을 때 complete 이벤트 발생
 - `onError` : 이벤트 스트림이 작업 처리 중 에러 발생시 호출되고 publisher와 subscriber의 연결이 종료된다.
 
+## Reactive Streams의 동작 흐름
+
+1. Publisher가 Subscriber 인터페이스 구현 객체를 subscribe 메서드의 파라미터로 전달한다.
+2. Publisher는 전달받은 Subscriber 인터페이스 구현 객체의 onSubscribe 메서드를 호출하고, Subscriber의 구독을 의미하는 Subscription 인터페이스 구현 객체를 Subscriber에게 전달한다.
+3. 호출된 Subscriber 인터페이스 구현 객체의 onSubscribe 메서드로부터 전달받은 Subscription 객체를 통해 전달받을 데이터의 개수를 Publisher에게 요청한다.
+4. Publisher는 요청 받은 개수 만큼의 데이터를 onNext 메서드를 호출하여 Subscriber에게 다시 전달한다. <br/>(Subscriber --n개 요청--> Publisher --onNext() : n개 데이터 전달--> Subscriber)
+5. 더 이상 전달할 데이터가 없으면 Publisher는 onComplete 메서드를 호출하여 작업을 종료한다.
+
+## Reactive Streams 용어
+
+- `Signal` : Publisher와 Subscriber 간에 주고 받는 상호작용을 의미한다.<br/>ex) `onSubscribe`, `onNext`, `onComplete`, `onError`, request와 cancel 메서드 역시 subscription 인터페이스에 정의되어 있지만 실질적으로 주체는 Subscriber이므로 Subscriber가 Publisher에게 보내는 signal이라고 볼 수 있다.
+- `Demand` : Subscriber가 Publisher에게 요청하는 데이터를 의미한다.
+
 ## Reactive Stream의 확장
 
 > Reactive streams 구현 라이브러리는 대표적으로 Project Reactor, RxJava, Mutiny 3개가 있다. 특히 Project Reactor는 spring webflux의 기반이 되는 라이브러리이다. RxJava는 netflix에서 만들었다. mutiny는 hibernate reactive를 위해 개발되었다.
@@ -47,5 +60,7 @@
 - Multi, Uni
 
 ### 참고
+
+[도서 - 스프링으로 시작하는 리액티브 스트림즈](https://search.shopping.naver.com/book/catalog/39049944625?cat_id=50010881&frm=PBOKPRO&query=%EC%8A%A4%ED%94%84%EB%A7%81%EC%9C%BC%EB%A1%9C+%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94+%EB%A6%AC%EC%95%A1%ED%8B%B0%EB%B8%8C+%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D&NaPm=ct%3Dlqw6xevc%7Cci%3D3e0c1fbab898e5df26a1a0807b90465cee3b233c%7Ctr%3Dboknx%7Csn%3D95694%7Chk%3D89d980414ad461e14e8c6627406158785e4dcbf6)
 
 [강의 - 토비의 리액티브 스트림](https://www.youtube.com/watch?v=8fenTR3KOJo&list=PLOLeoJ50I1kkqC4FuEztT__3xKSfR2fpw&index=1&t=4826s)
