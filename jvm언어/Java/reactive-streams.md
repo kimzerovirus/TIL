@@ -2,7 +2,16 @@
 
 > Observer 패턴? (에러/완료/배압(Backpressure)) + Iterator(=>onNext라는 메서드에서 그 특성이 드러남) <br/>
 >
-> publisher, subscriber, subscrpition 을 통해 비동기로 서로 이벤트를 주고 받으며 필요한 요청만큼만 처리하는 메커니즘을 가지고 있다.
+> publisher, subscriber, subscrpition 을 통해 비동기로 서로 이벤트를 주고 받으며 필요한 요청만큼만 처리하는 메커니즘을 가지고 있다. <br/>
+>
+> Publisher가 입력으로 들어오는 데이터를 제공하면 Subscriber가 데이터를 전달받아 사용하는 주체이다. <br/>
+>
+> `Publisher` 로부터 전달된 데이터를 `Subscriber` 가 아무런 처리없이 바로 사용하는 경우는 거의 없을것이다.
+> 따라서 Publisher와 Subscriber의 입맛에 알맞게 이 둘 사이에서 가공처리가 이루어져야 하는데 이 가공처리를 담당하는 것이 `Operator` 이다.
+
+**Reactive Streams란?** <br/>
+자바에서 데이터 스트림을 Non-Blocking 하면서 비동기적으로 처리하기 위한 리액티브 라이브러리의 표준을 의미한다.<br/>
+이러한 표준을 구현한 구현체로는 RxJava, Reactor, Akka Streams, Java9 Flow Api 등이 있다. 이 중 스프링 프레임워크는 Reactor를 채택하였다.
 
 ## Reactive Stream 구조
 
