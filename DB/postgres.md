@@ -4,7 +4,7 @@
 
 ## 데이터베이스, 테이블, 스키마
 
-```postgresql
+```sql
 -- 전체 데이터베이스 조회 
 SELECT datname FROM pg_database;
 
