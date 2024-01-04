@@ -37,10 +37,26 @@
 4. Publisher는 요청 받은 개수 만큼의 데이터를 onNext 메서드를 호출하여 Subscriber에게 다시 전달한다. <br/>(Subscriber --n개 요청--> Publisher --onNext() : n개 데이터 전달--> Subscriber)
 5. 더 이상 전달할 데이터가 없으면 Publisher는 onComplete 메서드를 호출하여 작업을 종료한다.
 
-## Reactive Streams 용어
+## Reactive Streams 관련 용어
 
 - `Signal` : Publisher와 Subscriber 간에 주고 받는 상호작용을 의미한다.<br/>ex) `onSubscribe`, `onNext`, `onComplete`, `onError`, request와 cancel 메서드 역시 subscription 인터페이스에 정의되어 있지만 실질적으로 주체는 Subscriber이므로 Subscriber가 Publisher에게 보내는 signal이라고 볼 수 있다.
 - `Demand` : Subscriber가 Publisher에게 요청하는 데이터를 의미한다.
+- `emit` : Publisher가 Subscriber에게 데이터를 전달(방출)하는 것을 의미한다. (onNext)
+- `Upstream`, `Downstream` : 메서드 체인에서 현재 지점보다 위에 있는 부분은 up 아래부분은 down
+- `sequence` : Publisher가 emit하는 데이터의 연속적인 흐름을 정의한 것 자체를 의미한다. Operator 체인 형태로 정의된다.
+- `Operator` : 연산자, 리액티브 스트림즈에서 just, filter, map과 같은 메서드들을 의미한다.
+- `Source`, `Original` : 리액티브 스트림즈 문서에서 이러한 단어가 나온다면 최초에 가장 먼저 생성된 것을 뜻한다.
+
+## Reactive Streams 기본 구현 규칙
+
+**Publisher 구현 규칙**
+
+- Publisher가 Subscriber에게 보내는 데이터(onNext)의 총 개수는 항상 해당 Subscriber의 구독을 통해 요청된 데이터의 총 개수보다 작거나 같아야 한다. (onComplete, onError 메서드를 통해 취소 되는 경우면 더 작을것이고 전체가 전달된다면 개수는 같을것이다.)
+- onComplete(성공적으로 종료시), onError(에러 발생시, 실패) 메서드를 통해 Subscriber의 구독을 종료할 수 있어야 한다.
+
+**Subscriber 구현 규칙**
+
+- 
 
 ## Reactive Stream의 확장
 
