@@ -102,7 +102,7 @@ private User user;
 jpql에서 fetch join을 하게 된다면 fetch 구문이 쿼리에 하드코딩 된다는 단점이 있습니다. 이를 최소화하고싶다면 `@EntityGraph`를 사용하면 된다.
 
 ```java
-@EntityGraph(attributePaths = {"articles"}, type = EntityGraphType.FETCH)
+@EntityGraph(attributePaths = {"postList"}, type = EntityGraphType.FETCH)
 @Query("select distinct u from User u left join u.postList")
 ```
 
