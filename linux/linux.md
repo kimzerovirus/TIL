@@ -15,8 +15,6 @@ Mainpulate Linux Kernel
 - ksh (korn shell) : Powerful Script Language
 - zch (Z shell) : Unix/GNU shell script, Powerful Script Language
 
-
-
 ## Linux File System Directories
 
 - `/bin` : 기본 명령어
@@ -53,6 +51,7 @@ Mainpulate Linux Kernel
 ```bash
 telnet [ip] [port]
 ```
+
 curl + telnet
 
 ```bash
@@ -72,8 +71,6 @@ curl telnet ping
 df -m
 lsblk # 디스크 구조를 트리형태로 조회할 수 있음 <- 파티션별 배정 용량 확인하기 편함
 ```
-
-
 
 ## Partition
 
@@ -98,7 +95,7 @@ fdisk /dev/sdb
 - t: 파티션 타입 변경
 - w: 파티션 변경사항 저장
 
-## Mount 
+## Mount
 
 **마운트 목록 조회**
 
@@ -106,3 +103,76 @@ fdisk /dev/sdb
 df -Th
 ```
 
+## Linux Run Configuration Files
+
+| file              | description                                                            |
+| ----------------- | ---------------------------------------------------------------------- |
+| /etc/profile      | 시스템 전역 쉘 변수 초기화 (특별한 일이 없으면 건드리지 않는것을 권장) |
+| /etc/profile.d/\* | 사용자가 전역 설정을 필요로 할 경우 해당 경로에서 설정을 권장한다.     |
+| ~/.bash_profile   | 사용자 개인의 환경 설정 파일 (JAVA_HOME 등을 설정한다.)                |
+| ~/.bashrc         | 사용자 개인의 alias 및 변수 설정                                       |
+| ~/.bash_logout    | 사용자 개인의 로그아웃 설정                                            |
+
+## chmod
+
+모든 사용자에게 파일 실행 권한 설정
+
+```bash
+chmod a+x test.txt
+```
+
+소유자에게만 파일 실행 권한 설정
+
+```bash
+chmod u+x test.txt
+```
+
+그룹에게만 파일 실행 권한 설정
+
+```bash
+chmod g+x test.txt
+```
+
+모든 사용자에게 파일 쓰기 권한 설정
+
+```bash
+chmod a+w test.txt
+```
+
+소유자에게만 파일 쓰기 권한 설정
+
+```bash
+chmod g+w test.txt
+```
+
+그룹에게만 파일 쓰기 권한 설정
+
+```bash
+chmod g+w test.txt
+```
+
+모든 사용자에게 파일 읽기 권한 설정
+
+```bash
+chmod a+r test.txt
+```
+
+소유자에게만 파일의 읽기 권한 설정
+
+```bash
+chmod u+r test.txt
+```
+
+그룹에게만 파일의 읽기 권한 설정
+
+```bash
+chmod g+r test.txt
+```
+
+## chown
+
+파일 소유자 정보 확인
+
+```bash
+chown -R user:group <file or directory>
+```
