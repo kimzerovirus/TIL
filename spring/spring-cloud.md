@@ -1,5 +1,26 @@
 # Spring Cloud
 
+> 스프링 클라우드는 모듈화하여 독립적으로 개발하기 위한 서비스, 마이크로 서비스를 지원하기 위한 프레임워크이다.
+
+다음과 같은 기능들을 제공한다.
+
+- Distributed/versioned configuration
+- Service registration and discovery
+- Routing
+- Service-to-service calls
+- Load balancing
+- Circuit Breakers
+- Distributed messaging
+- Short lived microservices (tasks)
+- Consumer-driven and producer-driven contract testing
+
+## Spring Cloud Netflix Eureka
+
+> 서비스 디스커버리로 마이크로 서비스 검색을 통해 외부에서 다른 어떤 서비스가 호스트 이름과 포트를 하드 코딩하지 않고도 서로 찾고 통신할 수 있게 해준다.
+
+1. 마이크로 서비스가 전부 다 자신의 위치 정보(호스트 이름, 포트 정보 등)를 스프링 클라우드의 유레카 서버에 등록한다.
+2. 클라이언트가 로드밸런서 또는 API 게이트웨이에 요청 정보를 전달하면, 요청 정보가 서비스 티스커버리에 전달 되어 필요한 마이크로 서비스에 전달된다.
+
 ## API Gateway란?
 
 > Micro Service Architecture(MSA)를 구성하는 다양한 기능 요소 중 외부로 노출되는 기능에 속하는 기능이 API 게이트웨이이다.
