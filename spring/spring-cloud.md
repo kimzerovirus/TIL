@@ -18,12 +18,25 @@
 
 > 서비스 디스커버리로 마이크로 서비스 검색을 통해 외부에서 다른 어떤 서비스가 호스트 이름과 포트를 하드 코딩하지 않고도 서로 찾고 통신할 수 있게 해준다.
 
-1. 마이크로 서비스가 전부 다 자신의 위치 정보(호스트 이름, 포트 정보 등)를 스프링 클라우드의 유레카 서버에 등록한다.
+1. 마이크로 서비스가 전부 다 자신의 위치 정보(호스트 이름, 포트 정보 등)를 스프링 클라우드의 유레카 서버에 등록한다. (eureka-server와 eureka-client가 있으며, client는 server에 등록되어 관리된다.)
 2. 클라이언트가 로드밸런서 또는 API 게이트웨이에 요청 정보를 전달하면, 요청 정보가 서비스 티스커버리에 전달 되어 필요한 마이크로 서비스에 전달된다.
+
 
 ## API Gateway란?
 
-> Micro Service Architecture(MSA)를 구성하는 다양한 기능 요소 중 외부로 노출되는 기능에 속하는 기능이 API 게이트웨이이다.
+> Micro Service Architecture(MSA)를 구성하는 다양한 기능 요소 중 외부로 노출되는 기능에 속하는 기능이 API 게이트웨이이다(클라이언트로 부터 단일 진입점이 된다).
+
+일반적으로 다음과 같은 기능들을 수행한다.
+
+- 인증 및 권한 부여
+- 서비스 검색 통합
+- 응답 캐싱
+- 정책, 회로 차단 및 Qos 다시 시도
+- 속도 제한
+- 부하 분산
+- 로깅, 추적, 상관 관계
+- 헤더, 쿼리 문자열 및 청구 변환
+- IP허용 목록에 추가
 
 ## API Gateway 패턴
 
@@ -53,5 +66,5 @@ https://learn.microsoft.com/en-us/azure/architecture/microservices/design/gatewa
 
 [Spring Cloud Gateway 기반의 API 게이트웨이 구축](https://s-core.co.kr/insight/view/spring-cloud-gateway-%EA%B8%B0%EB%B0%98%EC%9D%98-api-%EA%B2%8C%EC%9D%B4%ED%8A%B8%EC%9B%A8%EC%9D%B4-%EA%B5%AC%EC%B6%95/)
 
-
+[Spring Cloud로 개발하는 마이크로서비스 애플리케이션(MSA)](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%81%B4%EB%9D%BC%EC%9A%B0%EB%93%9C-%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C%EC%84%9C%EB%B9%84%EC%8A%A4)
 
