@@ -115,58 +115,25 @@ df -Th
 
 ## chmod
 
-모든 사용자에게 파일 실행 권한 설정
+**chmod [권한숫자] [권한바꿀파일] (디렉토리면 -R 추가)**
+
+- `a` : 모든 사용자
+- `u` : 사용자
+- `g` : 그룹
+- `r` : 읽기 권한 (4)
+- `w` : 쓰기 권한 (2)
+- `x` : 실행 권한 (1)
+
+*예시*
+
+> 777 = (유저권한)4+2+1, (그룹권한)4+2+1, (이외권한)4+2+1 <br/>
+>
+> chmod 777 test.txt
 
 ```bash
-chmod a+x test.txt
-```
-
-소유자에게만 파일 실행 권한 설정
-
-```bash
-chmod u+x test.txt
-```
-
-그룹에게만 파일 실행 권한 설정
-
-```bash
-chmod g+x test.txt
-```
-
-모든 사용자에게 파일 쓰기 권한 설정
-
-```bash
-chmod a+w test.txt
-```
-
-소유자에게만 파일 쓰기 권한 설정
-
-```bash
-chmod g+w test.txt
-```
-
-그룹에게만 파일 쓰기 권한 설정
-
-```bash
-chmod g+w test.txt
-```
-
-모든 사용자에게 파일 읽기 권한 설정
-
-```bash
-chmod a+r test.txt
-```
-
-소유자에게만 파일의 읽기 권한 설정
-
-```bash
-chmod u+r test.txt
-```
-
-그룹에게만 파일의 읽기 권한 설정
-
-```bash
-chmod g+r test.txt
+chmod u+r test.txt # 소유자에게만 파일의 읽기 권한 설정
+chmod a+x test.txt # 모든 사용자에게 파일 실행 권한 설정
+chmod g+w test.txt # 그룹에게만 파일 쓰기 권한 설정
 ```
 
 ## chown
@@ -176,3 +143,5 @@ chmod g+r test.txt
 ```bash
 chown -R user:group <file or directory>
 ```
+
+파일의 경우 **chown 소유권갖을유저:소유권갖을그룹 파일** 을 하거나, 폴더의 경우 **chown -R [소유권갖을유저]:[소유권갖을그룹] [디렉토리]** 하면된다.
