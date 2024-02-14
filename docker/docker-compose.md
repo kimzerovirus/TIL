@@ -17,3 +17,8 @@ services:
 - ports: 포트의 형식은 `외부포트:컨테이너내부포트`로 지정한다.
 
 - environment: 환경 변수
+
+```bash
+docker-compose -p [project_name] up -d # 프로젝트 이름 변경하여 실행
+```
+

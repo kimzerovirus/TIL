@@ -54,6 +54,64 @@ API Gateway Framework : Spring Cloud Gateway, Netflix Zuul, AWS API Gateway <br/
 
 프레젠테이션 계층의 역할인 filter/interceptor, controller, facade 중 filter/interceptor의 역할만 남게됨 IDOR 취약점 문제 발생, 단순 라우팅 역할만 하므로 인해 Facade가 필요한 경우 로직 전가가 이상하게 됨 (예를들면 orderservice가 productservice를 호출해서 필요한 정보를 조합해 내려줘야함 - 본인의 관심 비즈니스가 아닌 부분까지 구현하고 의존하게 됨 -> 특정 마이크로 서비스 개발자가 개발을 떠맡아야함)
 
+## Spring Cloud Config
+
+> 분산 시스템에서 서버, 클라이언트 구성에 필요한 설정 정보(application.yml 등)를 외부 시스템에서 관리하게 해주는 서버이다. 따라서 각 서비스를 다시 빌드하지 않고 바로 적용 가능하며, 개발환경, 운영환경 등 배포 파이프라인을 통해 환경에 맞는 구성 정보를 사용할 수 있게 해준다.
+
+config를 관리하는 서버에 spring-cloud-config-server를 의존성으로, config를 수신하는 쪽은 spring-cloud-starter-config와 spring-cloud-starter-bootstrap 의존성을 추가해준다. (서버측은 @EnableConfigServer 해주고 수신하는 측은 bootstrap.yml 작성)<br/>
+
+*config 서버 - application.yml*
+
+```yaml
+spring:
+  cloud:
+    config:
+      server:
+        # 파일 디렉토리로 설정하는 경우
+      	native:
+      		serch-location: file://${user.home}/Desktop/... # Mac OS
+      		serch-location: file:///${user.home}/Desktop/... # Windows
+      	# 깃으로 설정하는 경우
+        git:
+          uri: file:///Users/kimzerovirus/Desktop/code/lecture/msa/msa-sample/git-local-repo # local
+          uri: https://github.com/kimzerovirus/spring-cloud-config # remote
+          username: # private repo 일 경우 계정 정보 입력 필요
+          password:
+          default-label: master # branch 인듯?
+```
+
+*수신하는 서버 - bootstrap.yml* 
+
+```yaml
+spring:
+  cloud:
+    config:
+      uri: http://localhost:8888
+      name: msa-sample
+  profiles:
+    active: dev # 이걸로 프로파일 설정할 수 있음
+```
+
+이렇게 설정한 config 정보는 다음과 같은 방법으로 마이크로 서비스에 적용할 수 있다.
+
+- 서버 재기동 (사실 이렇게 되면 사용하는 의미가 없음.)
+- Actuator의 옵션 중 refresh를 통해 적용 : 수신하는 서버의 의존성에 actuator 추가해주고 refresh 세팅 후 `[POST] /actuator/refresh` uri를 호출하여 새로운 config를 적용시킨다. (각각의 마이크로 서비스 모두가 refresh 해줘야한다는 단점이 있다.)
+- Spring Cloud Bus 사용 : 분산 시스템의 노드를 경량 메시지 브로커와 연결하여 config 변경 사항을 연결된 노드에게 전달하는 방식
+  - config 서버와 수신하는 서버에 `spring-cloud-starter-bootstrap`, `spring-boot-starter-actuator`, `spring-cloud-starter-bus-amqp` (rabbitmq가 아닌 kafka를 사용할 경우에는 `org.springframework.cloud:spring-cloud-starter-bus-kafka`)의존성 추가 & management.endpoints.web.exposure.include: busrefresh 옵션 추가
+  - `[post] /actuator/busrefresh` 호출하면 메시지큐로 연결된 모든 서버가 리프레쉬된다.
+
+*spring-cloud-starter-bootstrap 의존성 추가 이유*
+
+spring-cloud-starter-bootstrap에는 spring-boot-starter, spring-cloud-context, spring-cloud-commons, spring-security-rsa, spring-core 등이 포함되어 있다. <br/>
+
+bootstrap.yml 파일은 spring cloud config에서 다른 설정 파일보다 먼저 실행되어야 하는 설정 파일을 지정하기 위한 용도로 사용한 것으로 spring-cloud-starter-bootstrap 의존성과는 관련 없음
+
+**yml 파일 적용 우선 순위**
+
+1. `application.yml`
+2. `application-<name>.yml` (spring cloud config를 통해 적용되는 yml 파일은 여기에 해당한다고 볼 수 있다.)
+3. `application-<name>-<profile>.yml`
+
 
 
 ###### 참고
