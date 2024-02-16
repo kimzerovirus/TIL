@@ -97,14 +97,16 @@ spring:
 - 서버 재기동 (사실 이렇게 되면 사용하는 의미가 없음.)
 - Actuator의 옵션 중 refresh를 통해 적용 : 수신하는 서버의 의존성에 actuator 추가해주고 refresh 세팅 후 `[POST] /actuator/refresh` uri를 호출하여 새로운 config를 적용시킨다. (각각의 마이크로 서비스 모두가 refresh 해줘야한다는 단점이 있다.)
 - Spring Cloud Bus 사용 : 분산 시스템의 노드를 경량 메시지 브로커와 연결하여 config 변경 사항을 연결된 노드에게 전달하는 방식
-  - config 서버와 수신하는 서버에 `spring-cloud-starter-bootstrap`, `spring-boot-starter-actuator`, `spring-cloud-starter-bus-amqp` (rabbitmq가 아닌 kafka를 사용할 경우에는 `org.springframework.cloud:spring-cloud-starter-bus-kafka`)의존성 추가 & management.endpoints.web.exposure.include: busrefresh 옵션 추가
+  - config 서버와 수신하는 서버에  `spring-cloud-starter-bootstrap`, `spring-boot-starter-actuator`, `spring-cloud-starter-bus-amqp` (rabbitmq가 아닌 kafka를 사용할 경우에는 `org.springframework.cloud:spring-cloud-starter-bus-kafka`)의존성 추가 & management.endpoints.web.exposure.include: busrefresh 옵션 추가
   - `[post] /actuator/busrefresh` 호출하면 메시지큐로 연결된 모든 서버가 리프레쉬된다.
 
-*spring-cloud-starter-bootstrap 의존성 추가 이유*
+***spring-cloud-starter-bootstrap 의존성***
 
 spring-cloud-starter-bootstrap에는 spring-boot-starter, spring-cloud-context, spring-cloud-commons, spring-security-rsa, spring-core 등이 포함되어 있다. <br/>
 
 bootstrap.yml 파일은 spring cloud config에서 다른 설정 파일보다 먼저 실행되어야 하는 설정 파일을 지정하기 위한 용도로 사용한 것으로 spring-cloud-starter-bootstrap 의존성과는 관련 없음
+
+config를 암호화하고 싶다면 `spring-cloud-starter-bootstrap` 의존성을 사용하여 작업하는 것이 좋다.
 
 **yml 파일 적용 우선 순위**
 
