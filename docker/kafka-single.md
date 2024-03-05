@@ -45,3 +45,40 @@ services:
 - KAFKA_INTER_BROKER_LISTENER_NAME: 도커 내부에서 사용할 리스너 이름을 지정한다. (여기서는 이전에 매핑된 PLAINTEXT가 사용되었다.)
 - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: single 브로커인경우에 지정하여 1로 설정했다. 멀티 브로커는 기본값을 사용하므로 이 설정이 필요 없다.
 - KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 카프카 그룹이 초기 리밸런싱할때 컨슈머들이 컨슈머 그룹에 조인할때 대기 시간이다.
+
+ui까지
+
+```yaml
+version: '3.8'
+ services:
+   zookeeper:
+     image: wurstmeister/zookeeper:latest
+     container_name: zookeeper
+     ports:
+       - "2181:2181"
+   kafka:
+     image: wurstmeister/kafka:latest
+     depends_on:
+       - zookeeper
+     container_name: kafka
+     ports:
+       - "9092:9092"
+     environment:
+       KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+     volumes:
+       - /var/run/docker.sock:/var/run/docker.sock
+   kafka-ui:
+     image: provectuslabs/kafka-ui
+     depends_on:
+       - kafka
+     container_name: kafka-ui
+     ports:
+       - "9090:8080"
+     restart: always
+     environment:
+       - KAFKA_CLUSTERS_0_NAME=local
+       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+       - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
+```
+
