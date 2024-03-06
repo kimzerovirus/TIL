@@ -1,5 +1,10 @@
 ## 리눅스 명령어
 
+```shell
+# 루트 권한
+sudo su -
+```
+
 ## Tips
 
 ```bash
