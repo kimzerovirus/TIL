@@ -106,5 +106,43 @@ ll
 
 ```bash
 chown -r [id]
+
+chown -R admin:admin [directory]
 ```
 
+## scp
+
+```sh
+scp -i -r [rsa key file] [전송할 폴더] server_ip@[전송 위치]
+> ex) scp -i ~/.ssh/private-key ~/example.txt kimzerovirus@123.123.xx.xxx:/home/test
+> ex) scp -P 22 kimzerovirus@123.123.xx.xxx:/home/kimzerovirus/example.txt /home/test
+```
+
+- `-r` : 폴더 전송
+- `-P` : ssh 포트 지정
+- `-i` : identity file을 지정해서 사용(identity file 경로를 지정)
+
+- `-v` : 상세내용을 보면서 디버깅 할 때 사용(verbose 모드)
+- `-p` : 전송 시 파일 수정 시간과 권한을 유지
+
+#### 로컬에서 원격으로 전송 (Local→Remote)
+
+```sh
+scp [옵션] [파일명1] [파일명2] [유저명]@[IP주소]:[받을 경로]
+```
+
+#### 원격에서 로컬로 전송 (Remote→Local)
+
+```sh
+scp [옵션] [유저명]@[IP주소]:"[파일명1] [파일명2]" [받을 경로]
+```
+
+원격지에서 보낼 파일들의 경로를 “ “을 이용해 묶어준다.
+
+#### 원격에서 원격으로 전송 (Remote→Remote)
+
+```sh
+scp [옵션] [유저명]@[IP주소]:"[파일명1] [파일명2]" [유저명]@[IP주소]:[받을 경로]
+```
+
+원격지에서 보낼 파일들의 경로를 “ “을 이용해 묶어준다.
