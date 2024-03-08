@@ -112,6 +112,8 @@ chown -R admin:admin [directory]
 
 ## scp
 
+> rsa 키 같은걸 사용하면 -i 옵션 필요? ~/.ssh 위치에 known_host 파일로 식별
+
 ```sh
 scp -i -r [rsa key file] [전송할 폴더] server_ip@[전송 위치]
 > ex) scp -i ~/.ssh/private-key ~/example.txt kimzerovirus@123.123.xx.xxx:/home/test
