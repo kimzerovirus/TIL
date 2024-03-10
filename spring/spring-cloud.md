@@ -14,6 +14,29 @@
 - Short lived microservices (tasks)
 - Consumer-driven and producer-driven contract testing
 
+## 스프링 클라우드 마이크로서비스 패턴
+
+#### 개발
+
+- Spring Boot
+- Spring Cloud Config : 구성 정보 관리
+- Spring Cloud Stream : 비동기 메시징
+
+#### 라우팅
+
+- Spring Cloud Discovery / eureka server, client : 서비스 디스커버리
+- Spring Cloud API Gateway : 서비스 라우팅
+
+#### 클라이언트 회복성
+
+- Spring Cloud Load Balancer : 클라이언트 부하 분산
+- Resilience4j : 회로 차단기, 폴백, 벌크 헤드
+
+#### 로깅
+
+- Spring Cloud Sleuth, ELK Stack : 로그 수집
+- Spring Cloud Sleuth/Zipkin : 로그 추적
+
 ## Spring Cloud Netflix Eureka
 
 > 서비스 디스커버리로 마이크로 서비스 검색을 통해 외부에서 다른 어떤 서비스가 호스트 이름과 포트를 하드 코딩하지 않고도 서로 찾고 통신할 수 있게 해준다.
