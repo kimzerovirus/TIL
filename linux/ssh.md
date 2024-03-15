@@ -23,5 +23,11 @@ chmod 644 ~/.ssh/authorized_keys
 chmod 644 ~/.ssh/known_hosts
 ```
 
-
+## connect
+```sh
+ssh -v -i [rsa파일 위치] [계정]@[서버IP]
+ex) ssh -v -i ./xen_rsa kimzerovirus@192.168.2.36
+```
+- `i` : identify로 rsa 파일 신원확인 옵션
+- `v` : 연결할 때 로그를 보여준다
 https://opentutorials.org/module/432/3742
