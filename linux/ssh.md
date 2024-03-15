@@ -30,4 +30,6 @@ ex) ssh -v -i ./xen_rsa kimzerovirus@192.168.2.36
 ```
 - `i` : identify로 rsa 파일 신원확인 옵션
 - `v` : 연결할 때 로그를 보여준다
+
+##### 참고
 https://opentutorials.org/module/432/3742
