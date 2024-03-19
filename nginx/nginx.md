@@ -20,3 +20,49 @@ location / {
 
 ```
 
+서버에서 options 메서드를 허용해 주었는데 실제 운영환경에서는 options 메서드를 열어주지 않는 기업들도 있으므로 다시 프론트 쪽 nginx에서 proxy로 해결하였다.
+
+```
+user nginx;
+worker_processes auto;
+
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    client_max_body_size 100M;
+    log_format custom '[$time_local] $server_name |  $http_x_forwarded_for $remote_addr | $request_uri |'
+                      ' $status';
+
+    sendfile        on;
+
+    keepalive_timeout  65;
+
+    server {
+        listen 80;
+        server_name chat_ui_front;
+        access_log   /var/log/nginx/chat_ui_front_access.log custom;
+
+        location /api/ {
+            rewrite ^/api(/.*)$ $1?$args break;
+            proxy_pass http://kimzerovirus.com;
+        }
+        
+        location /images/ {
+	        	proxy_pass http://kimzerovirus.com;
+        }
+
+        location / {
+            root /usr/share/nginx/html;
+            index index.html index.html;
+        }
+    }
+}
+```
+
