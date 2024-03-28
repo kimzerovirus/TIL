@@ -48,8 +48,8 @@ public class Post {
 
 default Fetch type은  **~ToMany**의 경우 **LAZY**, **~ToOne**은 **EAGER**이다.
 
-- OneToMany, ManyToMany : LAZY
-- OneToOne, ManyToOne : EAGER
+- OneToMany, ManyToMany : `LAZY`
+- OneToOne, ManyToOne : `EAGER`
 
 ## 즉시로딩
 
@@ -108,14 +108,35 @@ jpql에서 fetch join을 하게 된다면 fetch 구문이 쿼리에 하드코딩
 
 ## fetch join, @EntityGraph 차이점
 
-TODO, 이 둘의 차이점 정리
+
 
 ## N+1 문제, fetch join이 만능은 아니다.
 
 > 앞서 우리는 N+1 문제를 해결하는 방법으로, 지연로딩 관계에서 fetch join을 사용하여 해결하는 방법을 살펴 보았다. 하지만 뭐든지 해결해 줄것 같은  이 fetch join도 만능은 아니다.
 
+
+
+## 정리
+
+**엔티티 메니저에서 실행시 (em.find())**
+
+|                    | Select / EAGER       | Select / LAZY |
+| ------------------ | -------------------- | ------------- |
+| **User 호출 시점** | User, Post join 쿼리 | User 쿼리     |
+| **Post 사용 시점** |                      | Post 쿼리     |
+| **총 쿼리 수**     | 1                    | N + 1         |
+
+**JPQL에서 호출시에는 다음과 같이 select 문이 실행된다.**
+
+|                    | Select / EAGER        | Select / LAZY | 일반 Join | Fetch Join           |
+| ------------------ | --------------------- | ------------- | --------- | -------------------- |
+| **User 호출 시점** | User 쿼리 / Post 쿼리 | User 쿼리     | User 쿼리 | User, Post join 쿼리 |
+| **Post 사용 시점** |                       | Post 쿼리     | Post 쿼리 |                      |
+| **총 쿼리 수**     | N + 1                 | N + 1         | N + 1     | 1                    |
+
+
+
 ## Pagination
 
 jpa에서 fetch join을 통해서 N+1을 개선한다고는 하지만 막상 Page를 반환하는 쿼리를 작성해보면 다음과 같은 에러가 발생한다.
-
 

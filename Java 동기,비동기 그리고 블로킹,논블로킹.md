@@ -8,7 +8,7 @@
 
 ## 동기와 비동기
 
-![동기와비동기](../../_img/jvm/sync-async.png)
+![동기와비동기](./_img/jvm/sync-async.png)
 
 #####  동기 Sync
 
