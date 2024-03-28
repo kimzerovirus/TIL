@@ -1,5 +1,11 @@
 # Docker
 
+## Install
+
+https://docs.docker.com/engine/install/
+
+## Example
+
 ```
 FROM jdk
 ARG JAR_FILE=target/*.jar
@@ -53,3 +59,9 @@ $ sudo usermod -aG docker [username]
 ```sh
 $ sudo service docker restart
 ```
+
+
+
+## docker bug..
+
+docker image 실행시 설정되어 있는 external port가 자동으로 방화벽을 뚫어버리는 버그?가 있음

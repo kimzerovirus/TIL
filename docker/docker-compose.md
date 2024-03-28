@@ -39,3 +39,8 @@ services:
 docker-compose -p [project_name] up -d # 프로젝트 이름 변경하여 실행
 ```
 
+
+
+**tip**<br/>
+
+도커 내부 폴더와 마운트 된 외부 폴더의 root write 권한이 없는 경우 permision dinied 된다. 따라서 write 권한 추가 필요함
