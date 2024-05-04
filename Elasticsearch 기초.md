@@ -10,7 +10,44 @@ Elasticsearch는 역색인(Inverted Index)이라는 자료 구조를 이용함.<
 역색인은 검색엔진과 같은 문서의 내용의 검색이 필요한 형태에서 전문 검색의 형태로 주로 쓰임.
 쉬운 예시로 들어보면 **일반 색인(forward index)은 책의 목차**와 같은 의미이고, **역색인(inverted index)은 책 가장 뒤의 단어 별 색인 페이지**와 같다. 따라서 용어들에 대해서 문서의 형태로 나열 하는 구조를 역색인이라 보면됨
 
+## Elasticsearch와 RDBMS 유사 개념 비교
 
+| Elasticsearch                | RDBMS                   |
+| ---------------------------- | ----------------------- |
+| GET                          | Select                  |
+| PUT                          | Update                  |
+| POST                         | Insert                  |
+| DELETE                       | Delete                  |
+| Cluster                      | DBMS                    |
+| Node                         | DBMS Instance           |
+| Index (인덱스)               | Table (테이블)          |
+| Shard/ Routing (샤드)        | Partition (물리 파티션) |
+| Document (문서)              | Row (한 행)             |
+| Field                        | Column                  |
+| Serialized JSON document     | Row of columnar data    |
+| Nested or Parent/Child       | Join                    |
+| QueryDSL                     | SQL(DML)                |
+| Analyzed                     | Index                   |
+| _id                          | Primary Key             |
+| elasticsearch.yml & settings | Configuration           |
+| Mappings                     | Schema                  |
+
+Elasticsearch는 데이터를 행렬 데이터로 저장하는 것이 아니라, **JSON 문서(Document)**로 직렬화된 복잡한 자료 구조를 저장하는 방식을 채택하고 있음, 따라서 기존 RDB에서 사용하던 용어와 차이가 있다.<br/>
+
+- RDBMS => 데이터베이스 => 표 => 열/행
+- Elasticsearch => 클러스터 => 인덱스 => 샤드 => 키-값 쌍이 있는 문서
+
+### 인덱스와 샤드의 차이점
+
+- index : 논리적으로 저장되는 단위 = 메모리에만 올라가는것, 그렇기 때문에 ES는 인덱스 관리가 중요하다. 너무 많은 인덱스가 있다면 OOM의 원인
+
+- shard : 물리적으로 노드에 저장되는 단위이다.
+
+### 인덱스의 구성
+
+- index : 데이터 저장 및 검색을 위한 주요 데이터 구조로 rdb에서 하나의 테이블과 같다.
+- document : 데이터의 기본단위로 JSON 형태의 한 뭉치이다.
+- term : 필드 내 데이터의 단위로, Elasticsearch에서 색인되고 검색 할 단어이다.
 
 ## 검색
 
@@ -19,6 +56,15 @@ Elasticsearch는 역색인(Inverted Index)이라는 자료 구조를 이용함.<
 > POST [인덱스]/_search <br/>
 
 GET, POST 어느쪽을 사용해도 된다.
+
+##### 명령어 사용예시
+
+
+```bash
+curl -XGET http://localhost:9200/classes/class/1?pretty
+```
+
+?pretty는 JSON형태로 문자 정렬시켜주는 옵션
 
 ### match_all
 

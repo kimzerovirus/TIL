@@ -86,6 +86,6 @@
 
 ### 참고
 
-[도서 - 스프링으로 시작하는 리액티브 스트림즈](https://search.shopping.naver.com/book/catalog/39049944625?cat_id=50010881&frm=PBOKPRO&query=%EC%8A%A4%ED%94%84%EB%A7%81%EC%9C%BC%EB%A1%9C+%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94+%EB%A6%AC%EC%95%A1%ED%8B%B0%EB%B8%8C+%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D&NaPm=ct%3Dlqw6xevc%7Cci%3D3e0c1fbab898e5df26a1a0807b90465cee3b233c%7Ctr%3Dboknx%7Csn%3D95694%7Chk%3D89d980414ad461e14e8c6627406158785e4dcbf6)
+[도서 - 스프링으로 시작하는 리액티브 프로그래밍](https://search.shopping.naver.com/book/catalog/39049944625?cat_id=50010881&frm=PBOKPRO&query=%EC%8A%A4%ED%94%84%EB%A7%81%EC%9C%BC%EB%A1%9C+%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94+%EB%A6%AC%EC%95%A1%ED%8B%B0%EB%B8%8C+%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D&NaPm=ct%3Dlqw6xevc%7Cci%3D3e0c1fbab898e5df26a1a0807b90465cee3b233c%7Ctr%3Dboknx%7Csn%3D95694%7Chk%3D89d980414ad461e14e8c6627406158785e4dcbf6)
 
 [강의 - 토비의 리액티브 스트림](https://www.youtube.com/watch?v=8fenTR3KOJo&list=PLOLeoJ50I1kkqC4FuEztT__3xKSfR2fpw&index=1&t=4826s)
