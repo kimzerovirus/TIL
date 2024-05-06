@@ -33,9 +33,13 @@
 
 1. Publisher가 Subscriber 인터페이스 구현 객체를 subscribe 메서드의 파라미터로 전달한다.
 2. Publisher는 전달받은 Subscriber 인터페이스 구현 객체의 onSubscribe 메서드를 호출하고, Subscriber의 구독을 의미하는 Subscription 인터페이스 구현 객체를 Subscriber에게 전달한다.
-3. 호출된 Subscriber 인터페이스 구현 객체의 onSubscribe 메서드로부터 전달받은 Subscription 객체를 통해 전달받을 데이터의 개수를 Publisher에게 요청한다.
+3. 호출된 Subscriber 인터페이스 구현 객체의 onSubscribe 메서드로부터 전달받은 Subscription 객체를 통해 전달받을 데이터의 개수(Subscription.request)를 Publisher에게 요청한다.
 4. Publisher는 요청 받은 개수 만큼의 데이터를 onNext 메서드를 호출하여 Subscriber에게 다시 전달한다. <br/>(Subscriber --n개 요청--> Publisher --onNext() : n개 데이터 전달--> Subscriber)
 5. 더 이상 전달할 데이터가 없으면 Publisher는 onComplete 메서드를 호출하여 작업을 종료한다.
+
+##### Subsriber가 Subscription.request를 통해 데이터의 요청 개수를 지정하는 이유
+
+Publisher와 Subscriber가 마치 같은 스레드에서 동기적으로 상호 작용 하는 것처럼 보이지만 실제로는 Publisher와 Subscriber는 각각 다른 스레드에서 비동기적으로 상호작용하는 경우가 대부분으로, Publisher가 통지하는 속도가 Publisher로부터 통지된 데이터를 Subsriber가 처리하는 속도보다 더 빠르면 처리를 기다리는 데이터는 쌓이게 된다. 이로인해 시스템 부하가 커지는 문제점이 발생한다. 따라서 이를 방지하기 위해 데이터 개수를 제어하는 것이다.
 
 ## Reactive Streams 관련 용어
 
@@ -57,6 +61,14 @@
 **Subscriber 구현 규칙**
 
 - 
+
+### Kafka의 Pub/Sub과 Reactive Streams의 Publisher/Subscriber의 차이
+
+Kafka는 Publisher와 Subscriber의 중간에 메시지 브로커가 있고 이 브로커 내부에는 여러개의 토픽이 존재한다. 그리고 Publisher와 Subscriber는 브로커에 있는 특정 토픽만 바라보는 구조이다. 따라서 Publisher는 특정 토픽으로 메시지 데이터를 전송하기만 하면 되고, Subscriber도 특정 토픽만 구독하고 전달되는 메시지를 받으면 된다.
+
+
+
+
 
 ## Reactive Stream의 확장
 
