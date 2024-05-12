@@ -42,7 +42,7 @@
 
 > 64비트 (8바이트) ID로 구 트위터 시절 만듦
 
-![snowflake](/Users/kimzerovirus/Desktop/code/TIL/_img/개발tips/snowflake.png)
+![snowflake](../_img/개발tips/snowflake.png)
 
 - 부호비트(1) : 사용하지 않음 (예약)
 - 타임스탬프(41) : 밀리초로 시간 표현 시작 시점부터 대략 70년 사용 가능
