@@ -9,9 +9,10 @@
 > `Publisher` 로부터 전달된 데이터를 `Subscriber` 가 아무런 처리없이 바로 사용하는 경우는 거의 없을것이다.
 > 따라서 Publisher와 Subscriber의 입맛에 알맞게 이 둘 사이에서 가공처리가 이루어져야 하는데 이 가공처리를 담당하는 것이 `Operator` 이다.
 
-**Reactive Streams란?** <br/>
+### Reactive Streams란?
+
 자바에서 데이터 스트림을 Non-Blocking 하면서 비동기적으로 처리하기 위한 리액티브 라이브러리의 표준을 의미한다.<br/>
-이러한 표준을 구현한 구현체로는 RxJava, Reactor, Akka Streams, Java9 Flow Api 등이 있다. 이 중 스프링 프레임워크는 Reactor를 채택하였다.
+이러한 표준을 구현한 구현체로는 RxJava, Reactor, Akka Streams, Java9 Flow Api 등이 있다. 이 중 스프링 프레임워크는 Reactor를 채택하였다. 이 처럼 리액티브 스트림즈의 구현체는 다양하지만 어떤 구현체를 사용하더라도 동작 원리는 같다.
 
 ## Reactive Stream 구조
 
@@ -24,7 +25,7 @@
   - `request` : 데이터 요청 수 전달(요청 수 만큼만 작업하도록 제한한다.)
   - `cancel` : publisher가 onNext로 값을 전달하는 것을 취소하고 연결을 종료한다. (complete 되기 전이어도 취소 가능하며, subscriber가 더이상 데이터를 받지 않거나 에러가 발생했을 때 호출)
 
-- `onSubscribe` : subscriber가 publisher와 연결이 시작될 때 호출되며, publisher가 subscription을 subscriber 에게 전달함.
+- `onSubscribe` : subscriber가 publisher와 연결이 시작될 때 호출되며, publisher가 subscription을 subscriber 에게 전달함. Publisher에게 요청할 데이터의 개수를 지정하거나 구독을 해지하는 등의 작업이 이루어진다. 그리고 이러한 작업의 정보는 Subscription 객체를 통해 이루어짐.
 - `onNext` : publisher -> subscriber 에게 data 전달, subscriber는 받은 데이터로 작업 수행
 - `onComplete` : 모든 데이터가 전달되었을 때 complete 이벤트 발생
 - `onError` : 이벤트 스트림이 작업 처리 중 에러 발생시 호출되고 publisher와 subscriber의 연결이 종료된다.
@@ -55,20 +56,33 @@ Publisher와 Subscriber가 마치 같은 스레드에서 동기적으로 상호 
 
 **Publisher 구현 규칙**
 
-- Publisher가 Subscriber에게 보내는 데이터(onNext)의 총 개수는 항상 해당 Subscriber의 구독을 통해 요청된 데이터의 총 개수보다 작거나 같아야 한다. (onComplete, onError 메서드를 통해 취소 되는 경우면 더 작을것이고 전체가 전달된다면 개수는 같을것이다.)
-- onComplete(성공적으로 종료시), onError(에러 발생시, 실패) 메서드를 통해 Subscriber의 구독을 종료할 수 있어야 한다.
+- Publisher가 Subscriber에게 보내는 데이터(onNext)의 총 개수는 항상 해당 Subscriber의 구독을 통해 요청된 데이터의 총 개수보다 작거나 같아야 함. (onComplete, onError 메서드를 통해 취소 되는 경우면 더 작을것이고 전체가 전달된다면 개수는 같을것이다.)
+- onComplete(성공적으로 종료시), onError(에러 발생시, 실패) 메서드를 통해 Subscriber의 구독을 종료할 수 있어야 함.
+- 데이터 처리 실패시, onError signal을 보낼 수 있어야 함.
+- 데이터 처리 성공시, onComplete signal을 보낼 수 있어야 함.
+- Publisher가 Subscriber에게 onError또는 onComplete를 보내는 경우 구독이 취소된 것.
+- 종료 상태(onError, onComplete)가 되면 더 이상 signal이 발생되지 않아야 함.
 
 **Subscriber 구현 규칙**
 
-- 
+- Subscriber는 Publisher로부터 onNext signal을 수신하기 위해 Subscription.request(n)을 통해 요청 개수를 담은 Demend Signal을 Publisher에게 보내야 함.
+- Subscriber.onComplete, 및 Subscriber.onError 는 Subscription 또는 Publisher의 메서드를 호출해서는 안됨. (순환 참조 문제 예방)
+- Subscriber.onComplete 또는 Subscriber.onError 메서드는 Signal을 수신한 후 구독이 취소된 것으로 간주해야 함.
+- 구독이 취소되면 Subscriber는 signal을 받으면 안됨.
+- 구독이 더 이상 필요하지 않은 경우 Subscriber는 Subscription.cancel 메서드를 호출해야 함.
+- Subscriber.onSubscribe 메서드는 지정된 Subscriber에 대해 최대 한번만 호출되어야 함. (동일한 구독자가 최대 한번만 구독 가능하다는 뜻)
+
+**Subscription 구현 규칙**
+
+- 구독은 Subscriber가 onNext 또는 onSubscribe 내에서 동기적으로 Subscription.request를 호출하도록 허용해야 함.
+- 구독이 취소된 후 호출 된 Subscription.request 또는 Subscription.cancel은 유효하지 않음.
+- 구독이 취소되지 않은 상태에서 Subscription.request의 매개 변수가 0보다 작거나 같으면 IllegalArgumentException과 함께 onError Signal을 보내야 함.
+- 구독이 취소되지 않은 상태에서 Subscription.cancel은 Publisher가 Subscriber에게 보내는 Signal을 중지하도록 요청해야 함. (구독을 취소하니 Signal 보내지 말라는 것) 또한 Publisher에게 해당 구독자에 대한 참조를 삭제하도록 요청해야 함.
+- 구독은 무제한으로 request 호출을 지원해야 하며, 최대 2^63 - 1개의 Demand를 지원해야 함. (무한한 흐름인 stream이니깐?)
 
 ### Kafka의 Pub/Sub과 Reactive Streams의 Publisher/Subscriber의 차이
 
-Kafka는 Publisher와 Subscriber의 중간에 메시지 브로커가 있고 이 브로커 내부에는 여러개의 토픽이 존재한다. 그리고 Publisher와 Subscriber는 브로커에 있는 특정 토픽만 바라보는 구조이다. 따라서 Publisher는 특정 토픽으로 메시지 데이터를 전송하기만 하면 되고, Subscriber도 특정 토픽만 구독하고 전달되는 메시지를 받으면 된다.
-
-
-
-
+Kafka는 Publisher와 Subscriber의 중간에 메시지 브로커가 있고 이 브로커 내부에는 여러개의 토픽이 존재한다. 그리고 Publisher와 Subscriber는 브로커에 있는 특정 토픽만 바라보는 구조이다. 따라서 Publisher는 특정 토픽으로 메시지 데이터를 전송하기만 하면 되고, Subscriber도 특정 토픽만 구독하고 전달되는 메시지를 받으면 된다. 반면 Reactive Streams에서는 Subscriber가 구독하는 개념이지만 실제 코드상으로는 Publisher가 subscribe 메서드의 파라미터인 Subscriber를 등록하는 형태로 구독이 이루어진다.
 
 ## Reactive Stream의 확장
 
@@ -95,6 +109,8 @@ Kafka는 Publisher와 Subscriber의 중간에 메시지 브로커가 있고 이 
 
 - Hibernate reactive
 - Multi, Uni
+
+이 외에도 Akka Streams, Java Flow API (JAVA 9) 등이 있다.
 
 ### 참고
 
