@@ -96,7 +96,21 @@ subscriber.request(1);
 subscriber.cancel();
 ```
 
+## Marble Diagram
 
+TODO 요거 이미지랑 정리 추가할것
+
+## Sequence
+
+Sequence는 Publisher가 emit하는 데이터의 연속적인 흐름(stream)을 정의해 놓은 것이다. 코드 상으로는 Operator 체인을 의미
+
+### Cold Sequence
+
+Subscriber의 구독 시점이 달라도 구독을 할 때마다 Publisher가 데이터를 emit하는 과정을 **처음부터 다시 시작**하는 데이터 흐름
+
+### Hot Sequence
+
+cold sequence와 반대로 이전에 emit된 데이터는 Subscriber가 전달받지 못하고 구독이 발생한 시점 이후에 emit한 데이터만 전달 받을 수 있다
 
 ## Back Pressure
 
@@ -106,7 +120,7 @@ subscriber.cancel();
 
 만약 Publisher가 초당 10000개의 이벤트를 Subscriber에게 보내지만 Subscriber가 초당 7000개의 이벤트만 처리할 수 있다면 시스템은 장애가 발생할 것이다. 여기서 이런 시스템 오류를 방지하기 위한 전략을 배압이라고 한다.<br/>
 
-즉, 리액티브 프로그래밍에서 배압은 스트림 요소의 전송을 조절하는 것을 의미한다. *이벤트 수신자가 소비할 수 있는 요소의 수를 제어하는 것*
+즉, 리액티브 프로그래밍에서 배압은 스트림 요소의 전송(Publisher가 끊임없이 emit하는 무수히 많은 데이터)을 데이터 처리에 과부하가 걸리 않도록 제어하는 것을 의미한다. *이벤트 수신자가 소비할 수 있게 요소의 수를 제어하는 것*
 
 #### 시스템 장애 방지를 위한 배압 전략
 
@@ -120,9 +134,14 @@ subscriber.cancel();
 - 클라이언트 측에서 수신할 수 있는 요청 수를 제한하기
 - subscriber가 더 이상 이벤트를 처리할 수 없을 경우 데이터 전송을 취소하기
 
-### Spring WebFlux에서의 Back Pressure
+### Reactor에서 제공하는 Backpressure 제어 전략
 
-Spring WebFlux에서 배압을 담당하는게 Project Reactor이다. 내부적으로는 [Flux](https://projectreactor.io/docs/core/release/reference/#_on_backpressure_and_ways_to_reshape_requests)의 기능들을 사용하여 이벤트 에미터에서 생성된 이벤트를 제어하는 메커니즘을 적용하고 있다.
+- IGNORE 전략 : 배압을 적용하지 않는다.
+- ERROR 전략 : 다운스트림으로 전달할 데이터가 버퍼에 가득 찰 경우, Exception을 발생시킨다.
+- DROP 전략 : 다운스트림으로 전달할 데이터가 버퍼에 가득 찰 경우, 버퍼 밖에서 대기하는 가장 먼저 emit된 데이터 부터 Drop시킨다.
+- LATEST 전략 : 다운스트림으로 전달할 데이터가 버퍼에 가득 찰 경우, 버퍼 밖에서 대기하는 가장 마지막에(최신) emit된 데이터 부터 버퍼에 채운다.
+- BUFFER 전략 : 다운스트림으로 전달할 데이터가 버퍼에 가득 찰 경우, 버퍼 안에 있는 데이터부터 Drop 시킨다.
+  - 버퍼 안의 데이터 폐기 전략으로 DROP_LATEST, DROP_OLDEST가 있다.
 
 ### 참고
 
