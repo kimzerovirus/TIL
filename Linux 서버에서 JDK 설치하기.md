@@ -51,3 +51,22 @@ java -version
 
 
 source 적용 이후 java -version 을 호출했는데 변경이 안된다면 세션 종료하고 다시 켜보거나 sudo로 권한을 얻어와서 적용한다.
+
+
+
+
+
+## etc..
+
+### jar spring 실행시 외부 properties 파일 실행법
+
+```sh
+java -jar app.jar --spring.config.location=file:///Users/home/config/application.yml
+java -jar app.jar -Dspring.config.location=file:///Users/home/config/application.yml # 예전 버전은 -Dspring으로 돌리는거 같음..
+```
+
+- `,`로 파일 여러개 넣어줄 수 있음 ex).`=file://~,file://`
+
+- file 또는 classpath를 통해 위치를 찾을 수 있음
+
+https://docs.spring.io/spring-boot/docs/1.0.1.RELEASE/reference/html/boot-features-external-config.html
