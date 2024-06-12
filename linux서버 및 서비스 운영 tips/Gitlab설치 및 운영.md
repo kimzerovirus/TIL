@@ -29,7 +29,7 @@ sudo systemctl reload firewalld
 
 
 
-### 패키지 파일 설치
+## Gitlab Install
 
 ```sh
 # Debian/Ubuntu
@@ -65,6 +65,8 @@ gitlab-ctl reconfigure
 ```sh
 gitlab-ctl restart
 ```
+
+
 
 ## Gitlab 버전업
 
@@ -105,7 +107,6 @@ dpkg -i gitlab-ce-<version>.deb
 rpm -Uvh gitlab-ce-<version>.rpm
 ```
 
-
 **config 설정**<br/>
 
 ```sh
@@ -118,7 +119,15 @@ gitlab-ctl reconfigure
 gitlab-ctl restart
 ```
 
-## GitLab 복구
+**현재 설치 버전 확인**<br/>
+
+```sh
+rpm -qa | grep <package_name>
+```
+
+
+
+## Gitlab 복구
 
 **프로세스 중지**<br/>
 
@@ -138,3 +147,57 @@ sudo gitlab-ctl status
 ```shell
 sudo gitlab-backup restore BACKUP=11493107454_2024_06_10_16.10.6-ce
 ```
+
+
+
+## Gitlab Log
+
+**gitlab 웹 로그 확인 **
+
+```bash
+tail -f /var/log/gitlab/gitlab-rails/production.log
+```
+
+**gitlab 서비스 로그 확인 **
+
+```sh
+gitlab-ctl tail [service 명]
+gitlab-ctl tail postgresql
+gitlab-ctl tail ngix
+```
+
+gitlab 서버에서 남기는 각종 로그를 확인 할 수 있다. (서비스명은 `gitlab-ctl status` 로 확인되는 서비스명)
+
+
+
+## Gitlab 삭제하기
+
+```sh
+sudo gitlab-ctl uninstall
+sudo gitlab-ctl cleanse
+gitlab-ctl remove-accounts
+
+# Debian/Ubuntu
+dpkg -P gitlab-ce || yum -y remove gitlab-ce
+
+# CentOS/RHEL
+rpm -e gitlab-ce
+```
+
+**데이터 삭제**
+
+```sh
+/opt/gitlab
+/var/opt/gitlab
+/etc/gitlab
+/var/log/gitlab
+/etc/yum.repos.d/gitlab # 관련파일 전부 삭제
+```
+
+
+
+## Trouble Shooting
+
+### 버전 업 실패 후 Gitlab 기동x, 이전 버전으로 복구x 해결 방법
+
+깃랩 버전 업그레이드 작업 중 모종의 이슈로 실패하게 되었는데 하필이면 postgres13 -> 14로 db가 변경되다가 실패되어 데이터가 전부 꼬여 버린 상황이 발생하였다. 백업을 미리 해두었으므로 복구 명령어를 날렸으나 복구가 되지 않았고 여러 차례 삽질을 하다가 데이터를 전부 복제해두고 깃랩 삭제 및  `opt/gitlab` 데이터(etc데이터는 삭제x) 삭제 후 업그레이드 시도 전 버전으로 재설치한 후 복구 명령어를 날려 작업 이전 상태로 되돌릴 수 있었다.
