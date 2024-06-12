@@ -2,7 +2,7 @@
 
 ## Gitlab Install
 
-package 다운로드
+**package 다운로드**
 
 https://packages.gitlab.com/gitlab/gitlab-ce
 
@@ -27,9 +27,7 @@ sudo firewall-cmd --permanent --add-service=http
 sudo systemctl reload firewalld
 ```
 
-
-
-## Gitlab Install
+### Gitlab Package Install
 
 ```sh
 # Debian/Ubuntu
