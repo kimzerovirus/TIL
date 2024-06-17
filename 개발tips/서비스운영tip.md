@@ -56,6 +56,13 @@ kill [PID NUMBER]
 netstat -na | grep [port_num]
 ```
 
- netstat -na | grep 5000
+```
+netstat -na | grep 5000
 tcp6       0      0  *.5000                 *.*                    LISTEN
 tcp4       0      0  *.5000                 *.*                    LISTEN
+```
+
+## 처음 접속해보는 서버에서 작업 할 때
+
+history 명령어로 전에 작업한 사람들이 어떤 명령어를 날렸는지 확인해보고 작업하기
+
