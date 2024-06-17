@@ -85,9 +85,11 @@ kill [PID NUMBER]
 netstat -na | grep [port_num]
 ```
 
+```
 netstat -na | grep 5000
 tcp6       0      0  *.5000                 *.*                    LISTEN
 tcp4       0      0  *.5000                 *.*                    LISTEN
+```
 
 
 
