@@ -143,6 +143,58 @@ cold sequence와 반대로 이전에 emit된 데이터는 Subscriber가 전달�
 - BUFFER 전략 : 다운스트림으로 전달할 데이터가 버퍼에 가득 찰 경우, 버퍼 안에 있는 데이터부터 Drop 시킨다.
   - 버퍼 안의 데이터 폐기 전략으로 DROP_LATEST, DROP_OLDEST가 있다.
 
+## Sinks
+
+>  Sinks는 리액티브 스트림즈의 Signal을 프로그래밍 방식으로 푸시할 수 있는 구조이며 Flux 또는 Mono의 의미 체계를 가진다.
+
+Reactor 에서는 onNext 같은 Signal을 내부적으로 전송하는 방식 또는 generate(), create() 와 같은 Operator 를 사용하여 Signal을 전송할 수도 있지만 Sinks를 통하여 명시적으로 Signal을 전송할 수 있다. 하지만 차이점이 있는데 Sinks는 멀티스레드 방식으로 Signal을 전송해도 스레드 세이프를 보장하지만 앞선 전통적인 방식은 싱글 스레드 기반으로 Signal을 전송한다.
+
+### Sinks 특징
+
+- 멀티스레드 방식 가능
+- Thread Safey
+
+### Sinks 종류
+
+- Sinks.One : 한 건의 데이터를 전송하는 방법
+
+```java
+public final class Sinks {
+  ...
+  public static <T> Sinks.One<T> one(){
+    return SinksSpecs.DEFAULT_ROOT_SPEC.one();
+  }
+}
+```
+
+한 건의 데이터를 emit하는 역할을 하며, Mono 방식으로 Subscriber가 데이터를 소비할 수 있도록 해준다. 즉, Sinks.one() 메서드를 호출하는 것은 한 건의 데이터를 emit하는 기능을 사용하고자 하니 해당 스펙에 맞는 기능 명세를 요청하는 것과 같다.
+
+- Sinks.Many : 여러 건의 데이터를 여러 가지 방식으로 전송하는 방법
+
+```java
+public final class Sinks {
+  ...
+  public static ManySpec many()(){
+    return SinksSpecs.DEFAULT_ROOT_SPEC.many();
+  }
+}
+```
+
+`Sinks.One` 처럼 `Sinks.Many` 를 리턴 하는 것이 아닌 `ManySpec` 을 리턴한다. one은 하나의 스펙만 가지고 있으면 되므로 Default Spec인 SinksSpecs.DEFAULT_ROOT_SPEC을 사용하기 때문. 반면, SinksMany는 emit을 위한 여러 가지 기능이 정의된 스펙을 사용해야 한다.
+
+```java
+public final class Sinks {
+  ...
+	public interface ManySpec{
+    UnicastSpec unicast();
+    MulticastSpec multicast();
+    MulticastReplaySpec replay();
+  }
+}
+```
+
+ManySpec 내부에는 세 가지 기능을 정의한다.
+
 ### 참고
 
 [Project Reactor docs](https://projectreactor.io/docs/core/release/reference/#about-doc)
