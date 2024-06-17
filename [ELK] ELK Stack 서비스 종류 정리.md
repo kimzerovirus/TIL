@@ -46,3 +46,12 @@
 
 
 
+## Open source 대체제
+
+### Opensearch
+
+엘라스틱서치 대체제
+
+### Data Prepper
+
+로그스태시 대체제

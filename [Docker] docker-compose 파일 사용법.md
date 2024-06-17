@@ -23,6 +23,8 @@ services:
     ...
 
   kafka:
+  	image: <kafka-image-name>
+  	container_nmae: <container-name>
     ...
     depends_on:
       - zookeeper
@@ -37,6 +39,11 @@ services:
 
 ```bash
 docker-compose -p [project_name] up -d # 프로젝트 이름 변경하여 실행
+docker-compose logs # 최신 배포에 대한 모든 정보를 볼 수 있음
+docker-compose logs [docker service id] # 특정 서비스에 대한 로그를 볼 수 있음
+docker-compose ps # 시스템에 배포한 모든 컨테이너 목록을 출력
+docker-compose stop # 서비스를 마치고 나서 서비스를 중지, 컨테이너도 중지
+docker-compose down # 모든 도커 프로세스를 종료하고 컨테이너도 모두 제거
 ```
 
 
