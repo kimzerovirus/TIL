@@ -280,7 +280,15 @@ new BigDecimal("0.123450").stripTrailingZeros(); // "0.12345"
 
 소수점 자리수에서 오른쪽의 0 부분을 제거한 값을 반환한다.
 
+### MySQL BigDecimal 저장하기
 
+MySQL에서도 Java에서처럼 똑같은 근삿값 문제를 가지고 있기에, BigDecimal을 저장하려면 Decimal 타입을 사용해야함. 따라서 MySQL은 Decimal이라는 타입을 제공하므로, Decimal 타입으로 저장하면 된다. <br/>조회 할 때 숫자로 where 조건거는게 아닌 단순 저장이라면 그냥 문자열로 저장하는 것도 하나의 방법이긴 할듯?
+
+```sql
+CREATE TABLE 'tableA' (
+  'amount' DECIMAL(10, 4) DEFAULT NULL
+) # default DECIMAL(10, 0)
+```
 
 <br/>
 
