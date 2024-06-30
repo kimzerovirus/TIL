@@ -132,38 +132,50 @@ BigDecimal b = new BigDecimal("2");
 ### 덧셈 연산
 
 ```java
+// java
 a.add(b); // 7
 ```
 
 ```kotlin
+// kotlin
 a + b
 ```
 
 ### 뺄셈 연산
 
 ```java
+// java
 a.substract(b); // 3
 ```
 
 ```kotlin
+// kotlin
 a - b
 ```
 
 ### 곱셈 연산
 
 ```java
+// java
 a.multiply(b); // 10
 ```
 
 ```kotlin
+// kotlin
 a * b
 ```
 
 ### 나눗셈 연산
 
 ```java
+// java
 a.divide(b, RoundingMode.UP); 
 a.divide(b, 3, RoundingMode.UP); // 소수점 3자리까지 표시
+```
+
+```kotlin
+// kotlin
+a / b // a.devide(b, RoundingMode.HALF_EVEN)과 동일
 ```
 
 **RoundingMode**
@@ -195,10 +207,6 @@ a.divide(b, 3, RoundingMode.UP); // 소수점 3자리까지 표시
 
 ```java
 a.remainder(b); // 1
-```
-
-```kotlin
-a / b // a.devide(b, RoundingMode.HALF_EVEN)과 동일
 ```
 
 ### 비교 연산
