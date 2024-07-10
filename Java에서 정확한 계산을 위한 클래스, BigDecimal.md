@@ -288,15 +288,35 @@ new BigDecimal("0.123450").stripTrailingZeros(); // "0.12345"
 
 소수점 자리수에서 오른쪽의 0 부분을 제거한 값을 반환한다.
 
-### MySQL BigDecimal 저장하기
+### MySQL에서 Java BigDecimal 타입의 경우
 
-MySQL에서도 Java에서처럼 똑같은 근삿값 문제를 가지고 있기에, BigDecimal을 저장하려면 Decimal 타입을 사용해야함. 따라서 MySQL은 Decimal이라는 타입을 제공하므로, Decimal 타입으로 저장하면 된다. <br/>조회 할 때 숫자로 where 조건거는게 아닌 단순 저장이라면 그냥 문자열로 저장하는 것도 하나의 방법이긴 할듯?
+MySQL에서도 Java에서처럼 똑같은 근삿값 문제를 가지고 있기에, BigDecimal을 저장하려면 Decimal 타입을 사용해야함. 따라서 MySQL은 Decimal이라는 타입을 제공하므로, Decimal 타입으로 저장하면 된다. 
 
 ```sql
 CREATE TABLE 'tableA' (
   'amount' DECIMAL(10, 4) DEFAULT NULL
 ) # default DECIMAL(10, 0)
 ```
+
+MySQL에서 DECIMAL은 **고정 소수점(fixed-point types) 타입**이다. (MySQL은 부동 소수점(floating-point types) 타입인 FLOAT, DOUBLE 등도 지원한다.)<br/>
+
+DECIMAL에서 사용하는 고정 소수점 방식은 실수를 표현할 때 소수부의 자릿수를 고정하여 표현한다.
+
+즉, 소수부의 자릿수를 미리 정해 놓고, 고정된 자릿수로만 소수 부분을 표현하는 방식이다.
+
+또한 MySQL에서 DECIMAL 타입은 NUMERIC을 구현하여 만들었으므로, 대부분의 경우 NUMERIC을 사용해도 똑같이 동작한다.
+
+```sql
+DECIMAL(M,D)
+```
+
+- M은 소수 부분을 포함한 실수의 총 자릿수를 나타내며, 최댓값은 65이다.
+
+- D는 소수 부분의 자릿수를 나타내며, D가 0이면 소수 부분을 가지지 않는다.
+- 데이터 크기는 유동적이며, M과 D의 값에 따라 스토리지 크기가 결정된다.
+  - 지수와 부호에 필요한 추가 바이트를 포함하면 DECIMAL(6,3)의 경우 총 5바이트의 저장 공간이 필요함.
+
+조회 할 때 숫자로 where 조건거는게 아닌 단순 저장이라면 그냥 문자열로 저장하는 것도 하나의 방법이긴 할듯?
 
 <br/>
 
@@ -309,3 +329,5 @@ CREATE TABLE 'tableA' (
 - https://dev.gmarket.com/75
 
 - https://docs.oracle.com/javase/8/docs/api/
+
+- https://ibm.com/docs/en/informix-servers/12.10?topic=decimal-storage
