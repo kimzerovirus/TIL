@@ -211,3 +211,11 @@ yG # 2.현재 위치 이하 모두 복사
 gg # 1.첫번째 줄로 이동
 dG # 2.현재 위치 이하 모두 삭제
 ```
+
+less -R server.log 인코딩 해줌
+
+shift + g 맨 위
+page up/down
+q 나가기
+
+data access 관련 exception은 db에서 조회 할 때 문제된거
