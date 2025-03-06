@@ -62,6 +62,11 @@ http {
             root /usr/share/nginx/html;
             index index.html index.html;
         }
+        
+        error_page 404 405 /custom-error-page;
+        location = /custom-error-page {
+        	return 302 http://dev.hompage.com/error;
+        }
     }
 }
 ```
