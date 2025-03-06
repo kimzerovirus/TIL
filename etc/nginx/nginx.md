@@ -66,3 +66,45 @@ http {
 }
 ```
 
+## nginx 설정 적용
+
+> reload 명령어를 사용했는데 설정 적용이 안되서 restart 해주니 되는 경우도 있었음,,,
+
+nginxctl
+
+### **설정 버전 상세 확인**
+
+다음의 명령을 통해 상세한 버전 및 모듈에 대해서 확인 가능
+
+/usr/local/nginx/sbin/nginx -V
+
+ 
+
+### **설정 파일 테스트**
+
+설정 파일의 유효성을 테스트를 통해 잘못된 부분이 없는지 확인
+
+/usr/local/nginx/sbin/nginx/ -t
+
+ 
+
+### **운영중일 때 교체하는 법 1**
+
+새 파일을 생성 후 테스트 하고, 교체 후 업데이트 하도록 합니다. master 프로세스의 PID 변경없이 가능
+
+- /usr/local/nginx/sbin/nginx -t -c /home/anybody/test.conf
+- cp -i /home/anybody/test.conf /usr/local/nginx/conf/nginx.conf
+- /usr/local/nginx/sbin/nginx -s reload
+
+ 
+
+### **운영중일 때 교체하는 법 2**
+
+새 파일을 생성 후 테스트 하고, 교체 후 kill 명령어를 수행
+
+- /usr/local/nginx/sbin/nginx -t -c /home/anybody/test.conf
+- cp -i /home/anybody/test.conf /usr/local/nginx/conf/nginx.conf
+- master 프로세스의 PID를 확인한다.
+- kill -USR2 {PID} 명령으로 master 프로세스에게 USR2(12)-시그널을 보낸다.
+- kill -WINCH {PID} 명령으로 master 프로세스에게 WINCH(28)- 시그널을 보낸다.
+- kill -QUIT {PID} 명령으로 master 프로세스에게 WINCH(28)- 시그널을 보낸다.
