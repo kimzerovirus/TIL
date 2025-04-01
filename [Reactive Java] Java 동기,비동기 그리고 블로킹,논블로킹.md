@@ -10,17 +10,21 @@
 
 ![동기와비동기](./_img/jvm/sync-async.png)
 
-#####  동기 Sync
+###  동기 Sync
 
 - caller는 callee의 결과를 이용해서 action을 수행한다. (caller는 callee의 결과를 알아야 함 -> caller와 callee는 동기화 됨)
+- 함수의 작업 완료 여부를 호출한 함수가 체크한다.
 
-#####  비동기 Async
+###  비동기 Async
 
 - caller는 callee를 호출하고 callee가 알아서 callback(=action)을 수행한다. (caller는 callee의 결과와 상관이 없음 -> caller와 callee는 비동기)
+- 호출하는 함수의 작업 완료 여부를 신경쓰지 않고 별도의 스레드로 빼서 수행 후 완료되면 호출하는 측에 알린다.
 
 ## 블로킹과 논블로킹
 
-##### 블로킹 Blocking
+블로킹은 결국 제어권을 누가 가지냐인듯
+
+### 블로킹 Blocking
 
 > Thread.sleep 걸었을 때 이보다 밑에 코드는 sleep 시간 이후에 작동 된다.
 
@@ -35,7 +39,7 @@
 - 요청 하나당 하나의 thread를 생성하여 할당 (Thread Pool을 이용하여 생성 비용 절감), 더이상 thread를 생성하지 못하면 대기
 - thread 차단을 보완하기 위해 멀티 쓰레딩 기법을 이용, 하지만 context switching 으로 인한 스레드 전환 비용 발생
 
-##### 논블로킹 Non-Blocking
+### 논블로킹 Non-Blocking
 
 > Thread.sleep 걸었을 때 이보다 아래 작성된 코드는 sleep 시간이 오기 전에 먼저 작동이 되어 버린다. thread 차단이 되지 않기 때문.
 
@@ -51,6 +55,11 @@
 > caller가 callee를 호출하고 다른 본인의 일을 할 수도 있기 때문에 동기-비동기와 블로킹-논블로킹은 같은 선상에서 비교할 수 있는 개념이 아님<br/>ex) caller가 callee를 호출하고 caller는 callee가 작업이 끝날 때까지 상태를 물어보면서 로그를 찍는등(동기-논블로킹인 상황)
 >
 > 동기 - 블로킹, 비동기 - 논블로킹이 무조건 동시에 일어나는 상황은 아니라는 점 상황에 따라 비동기 - 블로킹도 가능하다!
+
+- 동기-블로킹 : caller가 callee호출시 제어권을 같이 넘김 -> callee는 caller에게 리턴값과 제어권 반환, 다른 작업 불가능
+- 비동기-블로킹 : caller는 callee호출시 제어권 및 콜백 함수를 넘김 -> callee는 caller에게 콜백 호출 및 제어권 반환, 다른 작업 불가능
+- 동기-논블로킹 : 제어권은 caller가 가지고 있으며, caller는 callee를 호출 후 다른 작업 수행하며, callee의 실행 완료를 체크 -> callee는 리턴값 반환 이후
+- 비동기-논블로킹 : 제어권은 caller가 가지고 있으며, caller는 callee 호출 후 다른 작업 수행, callee는 작업 완료시 콜백 호출
 
 ## Context Switching
 
