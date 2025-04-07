@@ -2,18 +2,18 @@
 
 > Java Persistence API는 자바 ORM 기술의 표준이다. 애플리케이션과 JDBC 사이에서 동작한다. 따라서 JDBC의 한계인 Non-blocking환경에서는 적합하지 않다. (JDBC는 블로킹 기반으로 설계되어 있다.)
 
-- 속성
+**속성 값**
 
-  - jpa 표준 속성 : jakarta.persistence 이하 속성 값 (특정 구현체에 종속되지 않는다)
+- jpa 표준 속성 : jakarta.persistence 이하 속성 값 (특정 구현체에 종속되지 않는다)
 
-  - 하이버네이트 속성: hibernate.dialect (jpa 구현체 중 하나인 하이버네이트의 설정)
+- 하이버네이트 속성: hibernate.dialect (jpa 구현체 중 하나인 하이버네이트의 설정)
 
-- 데이터베이스 방언
+**dialect 데이터베이스 방언**
 
-  - MySQL은 VARCHAR, 오라클은 VARCHAR2
-  - 문자열을 자르는 함수 ANSI표준은 `SUBSTRING` 이지만 오라클의 경우 `SUBSTR` 이다.
-  - 페이징 처리의 경우 MySQL, Postgres 등은  `LIMIT` 을 쓰지만  오라클 계열은 `ROWNUM` 을 사용한다.
-    - 특정 데이터베이스 방언이므로 JPQL에서도  `LIMIT` 쿼리 지원하지 않음!!! native query 작성 또는 querydsl에서는 limit메서드 사용
+- MySQL은 VARCHAR, 오라클은 VARCHAR2
+- 문자열을 자르는 함수 ANSI표준은 `SUBSTRING` 이지만 오라클의 경우 `SUBSTR` 이다.
+- 페이징 처리의 경우 MySQL, Postgres 등은  `LIMIT` 을 쓰지만  오라클 계열은 `ROWNUM` 을 사용한다.
+  - 특정 데이터베이스 방언이므로 JPQL에서도  `LIMIT` 쿼리 지원하지 않음!!! native query 작성, `top1`사용 또는 querydsl에서는 `limit()` 사용
 
 ## 영속성
 
@@ -106,6 +106,115 @@ jpa에서 제공하는 `flush()` 메서드는 영속성 컨텍스트의 변경 �
 - `flush()` 메서드 직접 호출
 - 트랜잭션 커밋 시 자동 호출
 - JPQL 쿼리 실행시 자동 호출
+
+
+
+
+
+
+
+
+
+## OneToMany 문제점
+
+one to many를 통해서 many를 리스트로 가져온다면 one.getList의 형태로 데이터를 가져와야한다. 하지만 one이 존재하지 않는다면 에러가 발생할 것이다. many에서 가져온다면 없을 경우 empty list가 반환되므로 에러가 발생하지 않는다. 따라서 에러를 내보내는 것보다는 리스트의 사이즈로 판별하는 방향이 더 나아보인다.
+
+## Fetch Join
+
+```java
+@Query("select m from Member m left outer join fetch Team t")
+```
+
+OneToMany는 기본적으로 관계 테이블을 생성시킴 그러므로 관계테이블을 생성시키지 않으려면 관계를 맺어줘야함 -> mappedby, JoinColumn 등
+
+mappedby는 관계의 주인
+
+book - bookStore 가 있다면
+
+
+
+book이 관계의 주인이 됨 <- bookStore의 id를 fk로 참조한다는 의미
+
+따라서 OneToMany 관계에서 단순히 리스트에 더해줌으로 저장을 한다면 mappedby 로 엮인 쪽은 실제로 알수 없음 그러므로 fk값을 같이 넣어줘야함
+
+https://www.youtube.com/watch?v=hsSc5epPXDs
+
+
+
+### **mappedBy**
+
+mappedBy는 양방향 관계에서 연관관계의 주인을 정의하는 데 사용된다. 연관관계의 주인은 외래 키를 관리하는 쪽. mappedBy를 사용하면 연관관계의 주인이 아닌 쪽에서 사용된다.
+
+- 양방향 관계에서 사용
+- 외래 키 관리의 비소유자: `mappedBy` 를 사용하는 엔티티는 외래 키를 직접 관리하지 않으며, 외래 키는 반대쪽 엔티티에 의해 관리된다.
+- 속성 이름을 지정: `mappedBy` 는 연관된 엔티티 클래스에서 해당 관계를 나타내는 속성 이름을 지정한다. (데이터베이스 컬럼명X)
+
+**예제**<br/>
+
+Student와 Department 사이의 일대다 관계를 나타낸다. Department가 주인이고, Student가 종속 관계이다.
+
+```java
+@Entity
+public class Department {
+    @Id
+    private Long id;
+
+    @OneToMany(mappedBy = "department")
+    private List<Student> students;
+}
+
+@Entity
+public class Student {
+    @Id
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    private Department department;
+}
+```
+
+여기서 Department 클래스는 mappedBy = "department"를 사용하여 Student 클래스에서 이 관계의 주인임을 나타낸다. 반대로, Student 클래스는 @JoinColumn을 사용하여 실제로 외래 키 department_id를 관리한다.
+
+### **@JoinColumn**
+
+@JoinColumn은 외래 키 컬럼을 지정하는 데 사용된다.
+
+- 단방향 또는 양방향 관계에서 사용: @JoinColumn은 양방향 관계에서 주인 엔티티에서 사용되거나 단방향 관계에서도 사용될 수 있다.
+- 외래 키 컬럼 명시: 외래 키 컬럼의 이름을 지정할 수 있으며, 이 컬럼을 통해 두 테이블이 연결된다.
+- 만약 @JoinColumn을 명시적으로 지정하지 않으면 JPA가 기본 이름을 사용하여 외래 키를 생성한다. 예를 들어, department_id처럼 기본적으로 필드명 + _id 형식으로 생성된다.
+
+
+
+### mappedby와 @JoinColumn 차이점
+
+mappedBy는 연관관계의 주인을 지정하여 외래 키를 직접 관리하지 않는 쪽에서 사용되고, @JoinColumn은 외래 키 컬럼을 명시하는 데 사용된다.
+
+mappedBy는 양방향 관계에서 주로 사용되며, 관계를 정의하는 쪽이 아닌 반대쪽에서 사용된다. 반면에 @JoinColumn은 외래 키를 실제로 관리하는 쪽에서 사용.
+
+
+
+### Cascade
+
+cascade 옵션은 부모 엔티티에서 자식 엔티티로의 상태 변화를 자동으로 전파하는 기능을 제공한다. 이 옵션을 적절하게 사용하면 엔티티의 생명 주기를 쉽게 관리할 수 있다.
+
+- **CascadeType.PERSIST**: 부모 엔티티의 저장 시 자식 엔티티도 저장.
+- **CascadeType.MERGE**: 부모 엔티티의 병합 시 자식 엔티티도 병합.
+- **CascadeType.REMOVE**: 부모 엔티티의 삭제 시 자식 엔티티도 삭제.
+- **CascadeType.REFRESH**: 부모 엔티티의 갱신 시 자식 엔티티도 갱신.
+
+- **CascadeType.DETACH**: 부모 엔티티가 detach 상태로 전환될 때, 자식 엔티티도 함께 detach 상태로 전환. 이는 엔티티를 영속성 컨텍스트에서 제거하는 것.
+
+- **CascadeType.ALL**: 모든 cascade 타입 적용. 부모 엔티티의 모든 상태 변화를 자식 엔티티에 전파하고 싶을 때 사용
+
+
+
+
+
+```java
+E Hibernate.unproxy(E e)
+void Hibernate.initialize(E e)
+```
 
 
 
