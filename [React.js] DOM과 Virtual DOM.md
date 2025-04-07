@@ -13,7 +13,7 @@
 
 ##### DOM 노드에 CSS를 적용하는 과정
 
-- 레이아웃 (layout, reflow) : 브라우저에 표현될 노드의 위치 좌표를 계산하는 과정, 레이아웃 과정을 거치면 반드시 페인팅 과정도 거치게 된다. 
+- 레이아웃 (layout, reflow) : 브라우저에 표현될 노드의 위치 좌표를 계산하는 과정, 레이아웃 과정을 거치면 반드시 페인팅 과정도 거치게 된다.
 - 페인팅 (painting) : 레이아웃 과정을 거친 후 노드에 색상과 같이 시각적인 효과를 그리는 과정
 
 ## 가상 DOM
@@ -29,7 +29,7 @@ MPA 방식에서는 페이지가 변경 되는 경우 다른 페이지로 이동
 ```javascript
 // 리액트의 Fiber 객체
 function FiberNode(){
-  
+
 }
 
 var createFiber = function (tag, pendingProps, key, mode) {
@@ -43,7 +43,4 @@ function createFiberFromElement(element, mode, lanes) {
 
 파이버는 렌더링 될 때 마다 새로 생성되는 리액트 요소들과 달리 컴포넌트가 최초로 마운트 되는 시점에 생성되어 가급적이면 재사용된다.
 
-
-
 [React 파이버 아키텍처 분석](https://d2.naver.com/helloworld/2690975)
-
