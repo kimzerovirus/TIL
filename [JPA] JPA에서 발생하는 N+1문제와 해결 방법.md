@@ -116,6 +116,15 @@ jpql에서 fetch join을 하게 된다면 fetch 구문이 쿼리에 하드코딩
 
 
 
+JPA에서 Fetch Join의 조건은 다음과 같습니다.
+
+- **ToOne은 몇개든** 사용 가능합니다
+- **ToMany는 1개만** 가능합니다.
+
+ToMany가 여러개인 상황에서 Fetch Join을 하면 `MultipleBagFetchException` 에러 발생함
+
+
+
 ## 정리
 
 **엔티티 메니저에서 실행시 (em.find())**
