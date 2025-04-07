@@ -21,3 +21,23 @@
    - 순열?
 
 
+
+
+
+최단거리 알고리즘 - 다익스트라 구현
+
+페이징 알고리즘 LRU, LFU에 쓰이는 자료구조
+
+DFS, BFS
+
+스택 vs 큐
+
+List vs Set
+
+sort 알고리즘별 시간 복잡도
+
+github.com/haru-note/tech-interview
+
+
+
+125p, 130p
