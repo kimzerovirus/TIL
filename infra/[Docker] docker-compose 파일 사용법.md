@@ -51,3 +51,17 @@ docker-compose down # 모든 도커 프로세스를 종료하고 컨테이너도
 **tip**<br/>
 
 도커 내부 폴더와 마운트 된 외부 폴더의 root write 권한이 없는 경우 permision dinied 된다. 따라서 write 권한 추가 필요함
+
+
+
+restart 정책
+
+```sh
+services:
+  app:
+    image: my-app
+    restart: no
+    
+# 이미 생성된 컨테이너여서 설정을 변경해야한다면
+docker update --restart=no <container_name_or_id>
+```
